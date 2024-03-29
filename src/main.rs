@@ -1,5 +1,6 @@
 #![allow(unused)]
 
 fn main() {
-    println!("Hello, world!");
+    let mut a = 5;
+    let b = a * 2;
 }
