@@ -21,6 +21,12 @@ Better yet, use [debugging llvm](https://rustc-dev-guide.rust-lang.org/backend/d
 
 ## Compiling LLVM-IR to Binary
 
+[Manual](https://stackoverflow.com/questions/37416272/generating-rust-executable-from-llvm-bitcode)
+
 ## LLVM Coroutines
 
 [Clang?](https://borretti.me/article/compiling-llvm-ir-binary)
+
+## Optimizing Code
+
+<https://blog.logrocket.com/optimizing-rust-code-llvm/#what-llvm-ir-look>
