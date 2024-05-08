@@ -35,6 +35,7 @@ Better yet, use [debugging llvm](https://rustc-dev-guide.rust-lang.org/backend/d
 > ```
 >
 > Otherwise unresolved symbols: `__CxxFrameHandler3`
+> (Maybe somewhere in `C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\lib\x64`)
 
 [Manual](https://stackoverflow.com/questions/37416272/generating-rust-executable-from-llvm-bitcode)
 
