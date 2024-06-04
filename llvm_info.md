@@ -25,21 +25,13 @@ Better yet, use [debugging llvm](https://rustc-dev-guide.rust-lang.org/backend/d
 
 ## Compiling LLVM-IR to Binary
 
-> [!important] Requirements
-> `Cargo.toml`:
->
-> ```[profile.release]
-> panic = 'abort'
-> [profile.dev]
-> panic = 'abort'
-> ```
->
-> Otherwise unresolved symbols: `__CxxFrameHandler3`
-> (Maybe somewhere in `C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\lib\x64`)
-
 [Manual](https://stackoverflow.com/questions/37416272/generating-rust-executable-from-llvm-bitcode)
 
-Assembly or Object file:
+```shell
+cargo rustc --release -- -C save-temps --emit=llvm-bc
+```
+
+### Assembly and Object file
 
 > [!important] Requirements
 > Requires llc which is shipped with rust via `llvm-tools` and can be found inside:
@@ -52,7 +44,7 @@ llc hello.bc
 llc hello.bc --filetype=obj
 ```
 
-Linking (Windows):
+### Linking (Windows)
 
 [Custom llvm passes](https://medium.com/@squanderingtime/manually-linking-rust-binaries-to-support-out-of-tree-llvm-passes-8776b1d037a4)
 
@@ -62,21 +54,8 @@ Linking (Windows):
 
 Print link args: `cargo rustc -- --print link-args`
 
-```shell
-cc -L/path/to/stage2/lib/rustlib/x86_64-apple-darwin/lib/ -lstd-f4a73f2c70e583e1 -o hello2 hello.o
-```
-
-`cargo rustc --release -- --print link-args -C save-temps --emit=llvm-bc`
-
-```shell
-link.exe "/NOLOGO" "C:\\Users\\devil\\AppData\\Local\\Temp\\rustcb9utSg\\symbols.o" "D:\\Renk\\Documents\\Studium\\mt_prototype\\target\\release\\deps\\mt_prototype.mt_prototype.145981194af32022-cgu.0.rcgu.o" "D:\\Renk\\Documents\\Studium\\mt_prototype\\target\\release\\deps\\mt_prototype.31bl34ce8r7vgvoc.rcgu.o" "/LIBPATH:D:\\Renk\\Documents\\Studium\\mt_prototype\\target\\release\\deps" "/LIBPATH:C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib" "C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib\\libstd-49e3d1aefc00cc02.rlib" "C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib\\libpanic_abort-23a83f9cb9b3433e.rlib" "C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib\\librustc_demangle-99c77609a4536a8b.rlib" "C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib\\libstd_detect-af9ffb3c6d3f8ec7.rlib" "C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib\\libhashbrown-a6bfe0548f994b2d.rlib" "C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib\\librustc_std_workspace_alloc-61f07eb10bc24cc3.rlib" "C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib\\libunwind-2fb3f9083307133a.rlib" "C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib\\libcfg_if-6892c9ede6f0d6e6.rlib" "C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib\\liblibc-788771c7bce73875.rlib" "C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib\\liballoc-8a4c192e8601db8f.rlib" "C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib\\librustc_std_workspace_core-4bf403d115b018c3.rlib" "C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib\\libcore-48aa4c2213e4ac50.rlib" "C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib\\libcompiler_builtins-34df001b737926cd.rlib" "C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.19041.0\\um\\x64\\kernel32.lib" "C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.19041.0\\um\\x64\\advapi32.lib" "C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.19041.0\\um\\x64\\ntdll.lib" "C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.19041.0\\um\\x64\\userenv.lib" "C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.19041.0\\um\\x64\\ws2_32.lib" "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\lib\\x64\\msvcrt.lib" "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\lib\\x64\\vcruntime.lib" "C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.19041.0\\ucrt\\x64\\ucrt.lib" "/NXCOMPAT" "/LIBPATH:C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\x86_64-pc-windows-msvc\\lib" "/OUT:D:\\Renk\\Documents\\Studium\\mt_prototype\\target\\release\\deps\\mt_prototype.exe" "/OPT:REF,ICF" "/DEBUG" "/PDBALTPATH:%_PDB%" "/NATVIS:C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\etc\\intrinsic.natvis" "/NATVIS:C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\etc\\liballoc.natvis" "/NATVIS:C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\etc\\libcore.natvis" "/NATVIS:C:\\Users\\devil\\.rustup\\toolchains\\stable-x86_64-pc-windows-msvc\\lib\\rustlib\\etc\\libstd.natvis"
-```
-
-Running:
-
-```shell
-DYLD_LIBRARY_PATH=/path/to/stage2/lib/rustlib/x86_64-apple-darwin/lib/ ./hello2
-```
+> [!important] Linking Command
+> Check the `link.sh` file for the linking command
 
 ## LLVM Coroutines
 
@@ -85,3 +64,11 @@ DYLD_LIBRARY_PATH=/path/to/stage2/lib/rustlib/x86_64-apple-darwin/lib/ ./hello2
 ## Optimizing Code
 
 <https://blog.logrocket.com/optimizing-rust-code-llvm/#what-llvm-ir-look>
+
+## Benchmarking
+
+Check <https://stackoverflow.com/questions/625680/how-do-i-get-repeatable-cpu-bound-benchmark-runtimes-on-windows>
+
+### Reproducible Builds?
+
+Check <https://reproducible-builds.org/>
