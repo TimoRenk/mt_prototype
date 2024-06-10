@@ -69,6 +69,8 @@ Print link args: `cargo rustc -- --print link-args`
 
 Check <https://stackoverflow.com/questions/625680/how-do-i-get-repeatable-cpu-bound-benchmark-runtimes-on-windows>
 
+R-Time vs Cpu-Time?
+
 ### Reproducible Builds?
 
 Check <https://reproducible-builds.org/>
