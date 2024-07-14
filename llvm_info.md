@@ -71,6 +71,8 @@ Check <https://stackoverflow.com/questions/625680/how-do-i-get-repeatable-cpu-bo
 
 R-Time vs Cpu-Time?
 
+PARSEC and SPLASH2 benchmarks [link](https://homes.cs.washington.edu/~djg/papers/asplos10-coredet.pdf)
+
 ### Reproducible Builds?
 
 Check <https://reproducible-builds.org/>
