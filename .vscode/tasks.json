@@ -10,7 +10,7 @@
 			"group": {
 				"kind": "build",
 			},
-			"label": "cargo build release",
+			"label": "release",
 			"presentation": {
 				"clear": true
 			},
@@ -27,7 +27,7 @@
 			"group": {
 				"kind": "build",
 			},
-			"label": "cargo clean",
+			"label": "clean",
 			"presentation": {
 				"clear": true
 			}
@@ -41,7 +41,7 @@
 			"group": {
 				"kind": "build",
 			},
-			"label": "emit llvm-ir",
+			"label": "llvm-ir",
 			"presentation": {
 				"clear": true
 			},
@@ -60,7 +60,7 @@
 			"group": {
 				"kind": "build",
 			},
-			"label": "emit llvm-bc",
+			"label": "llvm-bc",
 			"presentation": {
 				"clear": true
 			},
@@ -80,7 +80,10 @@
 				"kind": "test",
 				"isDefault": true
 			},
-			"label": "cargo run"
+			"label": "run",
+			"args": [
+				"--release"
+			]
 		}
 	]
 }
