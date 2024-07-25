@@ -9,12 +9,66 @@
 			],
 			"group": {
 				"kind": "build",
-				"isDefault": true
 			},
-			"label": "rust: cargo build",
+			"label": "cargo build release",
+			"presentation": {
+				"clear": true
+			},
+			"args": [
+				"--release"
+			]
+		},
+		{
+			"type": "cargo",
+			"command": "clean",
+			"problemMatcher": [
+				"$rustc"
+			],
+			"group": {
+				"kind": "build",
+			},
+			"label": "cargo clean",
 			"presentation": {
 				"clear": true
 			}
+		},
+		{
+			"type": "cargo",
+			"command": "rustc",
+			"problemMatcher": [
+				"$rustc"
+			],
+			"group": {
+				"kind": "build",
+			},
+			"label": "emit llvm-ir",
+			"presentation": {
+				"clear": true
+			},
+			"args": [
+				"--release",
+				"--",
+				"--emit=llvm-ir"
+			]
+		},
+		{
+			"type": "cargo",
+			"command": "rustc",
+			"problemMatcher": [
+				"$rustc"
+			],
+			"group": {
+				"kind": "build",
+			},
+			"label": "emit llvm-bc",
+			"presentation": {
+				"clear": true
+			},
+			"args": [
+				"--release",
+				"--",
+				"--emit=llvm-bc"
+			]
 		},
 		{
 			"type": "cargo",
@@ -26,7 +80,7 @@
 				"kind": "test",
 				"isDefault": true
 			},
-			"label": "rust: cargo run"
+			"label": "cargo run"
 		}
 	]
 }
