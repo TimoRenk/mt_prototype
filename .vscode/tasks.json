@@ -39,9 +39,9 @@
 				"$rustc"
 			],
 			"group": {
-				"kind": "build",
+				"kind": "none",
 			},
-			"label": "llvm-ir",
+			"label": "build: emit llvm-ir",
 			"presentation": {
 				"clear": true
 			},
@@ -49,7 +49,21 @@
 				"--release",
 				"--",
 				"--emit=llvm-ir"
-			]
+			],
+			"hide": true,
+		},
+		{
+			"type": "shell",
+			"label": "llvm-ir",
+			"command": "copy",
+			"args": [
+				"-Force",
+				"${workspaceFolder}/target/release/deps/${workspaceFolderBasename}.ll",
+				"${workspaceFolder}/out"
+			],
+			"group": "build",
+			"dependsOn": "build: emit llvm-ir",
+			"dependsOrder": "sequence"
 		},
 		{
 			"type": "cargo",
@@ -58,9 +72,9 @@
 				"$rustc"
 			],
 			"group": {
-				"kind": "build",
+				"kind": "none",
 			},
-			"label": "llvm-bc",
+			"label": "build: emit llvm-bc",
 			"presentation": {
 				"clear": true
 			},
@@ -68,7 +82,21 @@
 				"--release",
 				"--",
 				"--emit=llvm-bc"
-			]
+			],
+			"hide": true
+		},
+		{
+			"type": "shell",
+			"label": "llvm-bc",
+			"command": "copy",
+			"args": [
+				"-Force",
+				"${workspaceFolder}/target/release/deps/${workspaceFolderBasename}.bc",
+				"${workspaceFolder}/out"
+			],
+			"group": "build",
+			"dependsOn": "build: emit llvm-bc",
+			"dependsOrder": "sequence"
 		},
 		{
 			"type": "cargo",
