@@ -1,0 +1,25 @@
+{
+    "cSpell.words": [
+        "alloca",
+        "argmem",
+        "datalayout",
+        "dereferenceable",
+        "extractvalue",
+        "fastcc",
+        "mustprogress",
+        "musttail",
+        "noalias",
+        "nocallback",
+        "nofree",
+        "nonnull",
+        "noreturn",
+        "nosync",
+        "notail",
+        "noundef",
+        "nounwinds",
+        "readwrite",
+        "trunc",
+        "willreturn",
+        "zeroext"
+    ]
+}
