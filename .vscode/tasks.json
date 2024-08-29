@@ -55,11 +55,11 @@
 		{
 			"type": "shell",
 			"label": "llvm-ir",
-			"command": "copy",
+			"command": "xcopy",
 			"args": [
-				"-Force",
-				"${workspaceFolder}/target/release/deps/${workspaceFolderBasename}.ll",
-				"${workspaceFolder}/out"
+				"${workspaceFolder}\\target\\release\\deps\\${workspaceFolderBasename}.ll",
+				"${workspaceFolder}\\out",
+				"/y"
 			],
 			"group": "build",
 			"dependsOn": "build: emit llvm-ir",
@@ -88,11 +88,11 @@
 		{
 			"type": "shell",
 			"label": "llvm-bc",
-			"command": "copy",
+			"command": "xcopy",
 			"args": [
-				"-Force",
-				"${workspaceFolder}/target/release/deps/${workspaceFolderBasename}.bc",
-				"${workspaceFolder}/out"
+				"${workspaceFolder}\\target\\release\\deps\\${workspaceFolderBasename}.bc",
+				"${workspaceFolder}\\out",
+				"/y"
 			],
 			"group": "build",
 			"dependsOn": "build: emit llvm-bc",
