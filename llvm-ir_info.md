@@ -17,12 +17,13 @@
 - `sext`
 - `tail|musttail|notail call`: Calls a function. `tail` is for tail call optimizations.
 - `invoke`:
-- `store`
+- `store`: Is used to write to memory
 - `load`
 - `trunc`
 - `ret`: Returns with or without a value. A value is preceded by its type, e.g: `ret {i32 u8} {i32 -42 u8 16}`
 - `%YY = type {i8, u32}`: Declares a struct.
 - `%XX = extractvalue %YY %ZZ, 0`: Extracts the **first (0)** value out of a struct type *YY* from *ZZ* into *XX*.
+- `icmp`: Compares two values based on a condition returns a boolean or vector of booleans
 
 ## Label
 
