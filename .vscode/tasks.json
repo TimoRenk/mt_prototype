@@ -48,6 +48,8 @@
 			"args": [
 				"--release",
 				"--",
+				"-C",
+				"save-temps",
 				"--emit=llvm-ir"
 			],
 			"hide": true,
@@ -81,6 +83,8 @@
 			"args": [
 				"--release",
 				"--",
+				"-C",
+				"save-temps",
 				"--emit=llvm-bc"
 			],
 			"hide": true
