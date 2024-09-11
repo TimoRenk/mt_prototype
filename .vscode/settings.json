@@ -6,6 +6,7 @@
         "dereferenceable",
         "extractvalue",
         "fastcc",
+        "Graphviz",
         "mustprogress",
         "musttail",
         "noalias",

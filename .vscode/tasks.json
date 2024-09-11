@@ -8,7 +8,7 @@
 				"$rustc"
 			],
 			"group": {
-				"kind": "build",
+				"kind": "build"
 			},
 			"label": "release",
 			"presentation": {
@@ -25,7 +25,7 @@
 				"$rustc"
 			],
 			"group": {
-				"kind": "build",
+				"kind": "build"
 			},
 			"label": "clean",
 			"presentation": {
@@ -39,7 +39,7 @@
 				"$rustc"
 			],
 			"group": {
-				"kind": "none",
+				"kind": "none"
 			},
 			"label": "build: emit llvm-ir",
 			"presentation": {
@@ -52,7 +52,7 @@
 				"save-temps",
 				"--emit=llvm-ir"
 			],
-			"hide": true,
+			"hide": true
 		},
 		{
 			"type": "shell",
@@ -74,7 +74,7 @@
 				"$rustc"
 			],
 			"group": {
-				"kind": "none",
+				"kind": "none"
 			},
 			"label": "build: emit llvm-bc",
 			"presentation": {
@@ -90,8 +90,8 @@
 			"hide": true
 		},
 		{
-			"type": "shell",
 			"label": "llvm-bc",
+			"type": "shell",
 			"command": "xcopy",
 			"args": [
 				"${workspaceFolder}\\target\\release\\deps\\${workspaceFolderBasename}.bc",
@@ -116,6 +116,76 @@
 			"args": [
 				"--release"
 			]
+		},
+		{
+			"label": "remove unused temp files",
+			"type": "shell",
+			"command": "del",
+			"args": [
+				"${workspaceFolder}\\target\\release\\deps\\${workspaceFolderBasename}.${workspaceFolderBasename}.*"
+			],
+			"group": "none",
+			"problemMatcher": [],
+			"hide": true
+		},
+		{
+			"label": "rename temp file",
+			"type": "shell",
+			"command": "xcopy",
+			"args": [
+				"${workspaceFolder}\\target\\release\\deps\\${workspaceFolderBasename}.*.rcgu.o",
+				"${workspaceFolder}\\target\\release\\deps\\TEMP_FILE.${workspaceFolderBasename}.rcgu.o*",
+				"/Y"
+			],
+			"dependsOn": [
+				"remove unused temp files"
+			],
+			"dependsOrder": "sequence",
+			"problemMatcher": [],
+			"hide": true
+		},
+		{
+			"label": "clang: build",
+			"type": "shell",
+			"command": "clang -m64 .\\out\\mt_prototype.ll -o .\\out\\mt_prototype-clang.exe .\\target\\release\\deps\\TEMP_FILE.mt_prototype.rcgu.o $env:RUSTLIB\\libstd-49e3d1aefc00cc02.rlib $env:RUSTLIB\\libpanic_abort-23a83f9cb9b3433e.rlib $env:RUSTLIB\\librustc_demangle-99c77609a4536a8b.rlib $env:RUSTLIB\\libstd_detect-af9ffb3c6d3f8ec7.rlib $env:RUSTLIB\\libhashbrown-a6bfe0548f994b2d.rlib $env:RUSTLIB\\librustc_std_workspace_alloc-61f07eb10bc24cc3.rlib $env:RUSTLIB\\libunwind-2fb3f9083307133a.rlib $env:RUSTLIB\\libcfg_if-6892c9ede6f0d6e6.rlib $env:RUSTLIB\\liblibc-788771c7bce73875.rlib $env:RUSTLIB\\liballoc-8a4c192e8601db8f.rlib $env:RUSTLIB\\librustc_std_workspace_core-4bf403d115b018c3.rlib $env:RUSTLIB\\libcore-48aa4c2213e4ac50.rlib $env:RUSTLIB\\libcompiler_builtins-34df001b737926cd.rlib -lws2_32 -luserenv -lntdll",
+			"dependsOn": [
+				"rename temp file"
+			],
+			"dependsOrder": "sequence",
+			"group": "build"
+		},
+		{
+			"label": "create cfg-dot files",
+			"type": "shell",
+			"command": "opt -passes=dot-cfg ${workspaceFolder}\\out\\${workspaceFolderBasename}.ll --disable-output --dot-cfg-dir=${workspaceFolder}\\out",
+			"group": "none",
+			"problemMatcher": [],
+			"options": {
+				"cwd": "${workspaceFolder}\\out\\cfg"
+			},
+			"hide": true
+		},
+		{
+			"label": "clean CFGs",
+			"type": "shell",
+			"command": "del",
+			"args": [
+				"${workspaceFolder}\\out\\cfg\\*.dot*"
+			],
+			"group": "none",
+			"problemMatcher": [],
+			"hide": true
+		},
+		{
+			"label": "create CFGs",
+			"type": "shell",
+			"command": "forfiles /P ${workspaceFolder}\\out\\cfg /C 'cmd /c dot -Tpng -O @file'",
+			"problemMatcher": [],
+			"dependsOn": [
+				"clean CFGs",
+				"create cfg-dot files",
+			],
+			"dependsOrder": "sequence"
 		}
 	]
 }
