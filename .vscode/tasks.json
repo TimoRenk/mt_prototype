@@ -168,8 +168,10 @@
 		{
 			"label": "clean CFGs",
 			"type": "shell",
-			"command": "del",
+			"command": "md",
 			"args": [
+				"${workspaceFolder}\\out\\cfg\\",
+				";del",
 				"${workspaceFolder}\\out\\cfg\\*.dot*"
 			],
 			"group": "none",
