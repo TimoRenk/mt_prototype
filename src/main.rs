@@ -1,17 +1,16 @@
 #![allow(unused)]
 
-const ARR: [u32; 8] = [4, 9, 23, 15, 5, 10, 24, 16];
+const ARR: [u32; 9] = [4, 9, 23, 15, 5, 10, 24, 0x987, 0x98799];
 fn main() {
     let iter_vec: Vec<_> = ARR
         .iter()
         .filter(|&i| *i > 9)
-        .filter(|&i| *i < 20)
+        .map(|i| i + 1)
+        .filter(|&i| i < 20)
         .map(|i| i + 1)
         .collect();
-    let a = -99_i32;
+    println!("value: {}", iter_vec[0]);
     // let a = 9801_f32.sqrt();
-    println!("Hello World: {a}");
-    println!("{}", iter_vec[0]);
     // let arr: [u32; 8] = [4, 9, 23, 12, 5, 10, 24, 16];
     // let mut vec = Vec::with_capacity(arr.len());
     // println!("### for-loop: {arr:?} ###");
