@@ -1,5 +1,9 @@
 # Tools
 
+## Clang
+
+clang+llvm-18.1.2-x86_64-pc-windows-msvc
+
 ## Debugging
 
 ### Libxml2

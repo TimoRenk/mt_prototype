@@ -46,7 +46,15 @@ llc hello.bc
 llc .\out\mt_prototype.bc --filetype=obj
 ```
 
-### Executable with Clang
+### Clang
+
+#### Emitting .ll
+
+```shell
+clang -S -emit-llvm hello.c
+```
+
+#### Executable with Clang
 
 [Custom llvm passes](https://medium.com/@squanderingtime/manually-linking-rust-binaries-to-support-out-of-tree-llvm-passes-8776b1d037a4)
 
@@ -69,7 +77,11 @@ clang -m64 .\out\mt_prototype.ll -o .\out\mt_prototype-clang.exe .\target\releas
 ???
 
 ```shell
-lli .\out\mt_prototype.ll --extra-object=.\target\release\deps\mt_prototype.367tnwyh1wtp3cfp.rcgu.o --extra-archive=$env:RUSTLIB\libstd-49e3d1aefc00cc02.rlib --extra-archive=$env:RUSTLIB\libstd-49e3d1aefc00cc02.rlib --extra-archive=$env:RUSTLIB\libpanic_abort-23a83f9cb9b3433e.rlib --extra-archive=$env:RUSTLIB\librustc_demangle-99c77609a4536a8b.rlib --extra-archive=$env:RUSTLIB\libstd_detect-af9ffb3c6d3f8ec7.rlib --extra-archive=$env:RUSTLIB\libhashbrown-a6bfe0548f994b2d.rlib --extra-archive=$env:RUSTLIB\librustc_std_workspace_alloc-61f07eb10bc24cc3.rlib --extra-archive=$env:RUSTLIB\libunwind-2fb3f9083307133a.rlib --extra-archive=$env:RUSTLIB\libcfg_if-6892c9ede6f0d6e6.rlib --extra-archive=$env:RUSTLIB\liblibc-788771c7bce73875.rlib --extra-archive=$env:RUSTLIB\liballoc-8a4c192e8601db8f.rlib --extra-archive=$env:RUSTLIB\librustc_std_workspace_core-4bf403d115b018c3.rlib --extra-archive=$env:RUSTLIB\libcore-48aa4c2213e4ac50.rlib --extra-archive=$env:RUSTLIB\libcompiler_builtins-34df001b737926cd.rlib
+lli --force-interpreter --extra-object=".\target\release\deps\TEMP_FILE.mt_prototype.rcgu.o" --extra-archive="$env:RUSTLIB\libstd-49e3d1aefc00cc02.rlib" --extra-archive=$env:RUSTLIB\libpanic_abort-23a83f9cb9b3433e.rlib --extra-archive=$env:RUSTLIB\librustc_demangle-99c77609a4536a8b.rlib --extra-archive=$env:RUSTLIB\libstd_detect-af9ffb3c6d3f8ec7.rlib --extra-archive=$env:RUSTLIB\libhashbrown-a6bfe0548f994b2d.rlib --extra-archive=$env:RUSTLIB\librustc_std_workspace_alloc-61f07eb10bc24cc3.rlib --extra-archive=$env:RUSTLIB\libunwind-2fb3f9083307133a.rlib --extra-archive=$env:RUSTLIB\libcfg_if-6892c9ede6f0d6e6.rlib --extra-archive=$env:RUSTLIB\liblibc-788771c7bce73875.rlib --extra-archive=$env:RUSTLIB\liballoc-8a4c192e8601db8f.rlib --extra-archive=$env:RUSTLIB\librustc_std_workspace_core-4bf403d115b018c3.rlib --extra-archive=$env:RUSTLIB\libcore-48aa4c2213e4ac50.rlib --extra-archive=$env:RUSTLIB\libcompiler_builtins-34df001b737926cd.rlib --extra-archive="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\lib\x64\msvcrt.lib" --extra-archive="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\lib\x64\vcruntime.lib" --extra-archive="C:\Program Files (x86)\Windows Kits\10\Lib\10.0.19041.0\um\x64\advapi32.lib" --extra-archive="C:\Program Files (x86)\Windows Kits\10\Lib\10.0.19041.0\um\x64\ntdll.lib" --load="C:\Windows\System32\userenv.dll" --load="C:\Windows\System32\ws2_32.dll" --load="C:\Windows\System32\BCryptPrimitives.dll" .\out\mt_prototype.ll
+```
+
+```shell
+lli --extra-object=.\target\release\deps\TEMP_FILE.mt_prototype.rcgu.o --extra-archive=$env:RUSTLIB\libstd-49e3d1aefc00cc02.rlib .\out\mt_prototype.ll
 ```
 
 ### Linking (Windows)

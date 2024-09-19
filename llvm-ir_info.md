@@ -13,12 +13,12 @@
 
 ## Instructions
 
-- `alloca`: Allocates memory on the stack frame of the current function.
+- `alloca`: Allocates memory on the stack frame of the current function. The type does not matter, only the size.
 - `sext`
 - `tail|musttail|notail call`: Calls a function. `tail` is for tail call optimizations.
 - `invoke`:
-- `store`: Is used to write to memory
-- `load`
+- `store`: Is used to write to memory. Can be read as anything. Storing a pointer will store the pointer itself, not the pointee.
+- `load`: Reads memory from a pointer into a variable. Can be read as anything.
 - `trunc`
 - `ret`: Returns with or without a value. A value is preceded by its type, e.g: `ret {i32 u8} {i32 -42 u8 16}`
 - `%YY = type {i8, u32}`: Declares a struct.
