@@ -23,6 +23,8 @@
 - `ret`: Returns with or without a value. A value is preceded by its type, e.g: `ret {i32 u8} {i32 -42 u8 16}`
 - `%YY = type {i8, u32}`: Declares a struct.
 - `%XX = extractvalue %YY %ZZ, 0`: Extracts the **first (0)** value out of a struct type *YY* from *ZZ* into *XX*.
+- `%XX = getelementptr inbounds YY, ptr %ZZ, i64 AA`: Calculates a pointer with *AA* *size_of(*YY*) / 8 + *ZZ*. I.e. ZZ is 5, YY is i32, AA is 3 -> YY / 8 = 4. 4* 3 = 12. 5 + 12 = 17. Division by 8 because address space is in bytes.
+
 - `icmp`: Compares two values based on a condition returns a boolean or vector of booleans
 
 ## Label
@@ -58,6 +60,8 @@ An argument is the actual value passed into a function.
 ## Parameter Attributes
 
 A parameter is the placeholder inside a function definition for an argument.
+
+- `sret`: indicates the pointer is the address of a structure returned by the function.
 
 ## Variable Attributes?
 
