@@ -90,19 +90,19 @@ target triple = "x86_64-pc-windows-msvc19.29.30143"
 
 ; <core::iter::adapters::map::Map<I,F> as core::iter::traits::iterator::Iterator>::next
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { i32, i32 } @"_ZN102_$LT$core..iter..adapters..map..Map$LT$I$C$F$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h98d97217903944d3E"(ptr align 8 %self) unnamed_addr #0 { 
+define internal { i32, i32 } @map_next(ptr align 8 %iterator) unnamed_addr #0 { 
 start: 
   %_8 = alloca i32, align 4 
   %self1 = alloca %"core::option::Option<u32>", align 4 
   %_0 = alloca %"core::option::Option<u32>", align 4 
   ; call <core::iter::adapters::filter::Filter<I,P> as core::iter::traits::iterator::Iterator>::next
-  %0 = call { i32, i32 } @"_ZN108_$LT$core..iter..adapters..filter..Filter$LT$I$C$P$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h5026d4ccd9759914E"(ptr align 8 %self) #16 
+  %0 = call { i32, i32 } @filter_next(ptr align 8 %iterator) #16 
   %1 = extractvalue { i32, i32 } %0, 0 
   %2 = extractvalue { i32, i32 } %0, 1 
   store i32 %1, ptr %self1, align 4 
   %3 = getelementptr inbounds i8, ptr %self1, i64 4 
   store i32 %2, ptr %3, align 4 
-  %f = getelementptr inbounds i8, ptr %self, i64 16 
+  %f = getelementptr inbounds i8, ptr %iterator, i64 16 
   %4 = load i32, ptr %self1, align 4, !range !3, !noundef !4 
   %_5 = zext i32 %4 to i64 
   %5 = icmp eq i64 %_5, 0 
@@ -134,7 +134,7 @@ start:
 
 ; <core::iter::adapters::map::Map<I,F> as core::iter::traits::iterator::Iterator>::try_fold
 ; Function Attrs: nounwind uwtable
-define internal { i32, i32 } @"_ZN102_$LT$core..iter..adapters..map..Map$LT$I$C$F$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$8try_fold17hb5071e284b0a6f17E"(ptr align 8 %self, ptr align 1 %g) unnamed_addr #1 { 
+define internal { i32, i32 } @iter_map_try_fold(ptr align 8 %self, ptr align 1 %g) unnamed_addr #1 { 
 start: 
   %_5 = alloca %"{closure@core::iter::adapters::map::map_try_fold<'_, &u32, u32, (), core::ops::control_flow::ControlFlow<u32>, {closure@src\\main.rs:8:14: 8:17}, {closure@core::iter::traits::iterator::Iterator::find::check<u32, &mut {closure@src\\main.rs:9:17: 9:21}>::{closure#0}}>::{closure#0}}", align 8 
   %f = getelementptr inbounds i8, ptr %self, i64 16 
@@ -192,11 +192,11 @@ start:
 
 ; <core::iter::adapters::filter::Filter<I,P> as core::iter::traits::iterator::Iterator>::next
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { i32, i32 } @"_ZN108_$LT$core..iter..adapters..filter..Filter$LT$I$C$P$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h5026d4ccd9759914E"(ptr align 8 %self) unnamed_addr #0 { 
+define internal { i32, i32 } @filter_next(ptr align 8 %iterator) unnamed_addr #0 { 
 start: 
-  %_3 = getelementptr inbounds i8, ptr %self, i64 16 
+  %iterator.2 = getelementptr inbounds i8, ptr %iterator, i64 16 
   ; call core::iter::traits::iterator::Iterator::find
-  %0 = call { i32, i32 } @_ZN4core4iter6traits8iterator8Iterator4find17h08a341f267228182E(ptr align 8 %self, ptr align 1 %_3) #16 
+  %0 = call { i32, i32 } @iterator_find(ptr align 8 %iterator, ptr align 1 %iterator.2) #16 
   %_0.0 = extractvalue { i32, i32 } %0, 0 
   %_0.1 = extractvalue { i32, i32 } %0, 1 
   %1 = insertvalue { i32, i32 } poison, i32 %_0.0, 0 
@@ -264,22 +264,23 @@ start:
 
 ; <alloc::vec::Vec<T> as alloc::vec::spec_from_iter_nested::SpecFromIterNested<T,I>>::from_iter
 ; Function Attrs: nounwind uwtable
-define internal void @"_ZN111_$LT$alloc..vec..Vec$LT$T$GT$$u20$as$u20$alloc..vec..spec_from_iter_nested..SpecFromIterNested$LT$T$C$I$GT$$GT$9from_iter17haef64b790c72f374E"(ptr sret([24 x i8]) align 8 %_0, ptr %0, ptr %1) unnamed_addr #1 personality ptr @__CxxFrameHandler3 { 
+define internal void @vec_spec_from_iter_nested(ptr sret([24 x i8]) align 8 %vec, ptr %arr_start, ptr %arr_end) unnamed_addr #1 personality ptr @__CxxFrameHandler3 { 
 start: 
   %2 = alloca i64, align 8 
   %_24 = alloca %"core::result::Result<alloc::raw_vec::RawVec<u32>, alloc::collections::TryReserveError>", align 8 
-  %_20 = alloca i8, align 1 
+  %val_1 = alloca i8, align 1 
   %vector1 = alloca %"alloc::vec::Vec<u32>", align 8 
   %_8 = alloca { i64, %"core::option::Option<usize>" }, align 8 
   %_3 = alloca %"core::option::Option<u32>", align 4 
   %vector = alloca %"alloc::vec::Vec<u32>", align 8 
+  ;# type {{{{{ ptr, ptr, { }}, { }}, {}}, {}}, {}}
   %iterator = alloca %"core::iter::adapters::map::Map<core::iter::adapters::filter::Filter<core::iter::adapters::map::Map<core::iter::adapters::filter::Filter<core::slice::iter::Iter<'_, u32>, {closure@src\\main.rs:7:17: 7:21}>, {closure@src\\main.rs:8:14: 8:17}>, {closure@src\\main.rs:9:17: 9:21}>, {closure@src\\main.rs:10:14: 10:17}>", align 8 
-  store ptr %0, ptr %iterator, align 8 
-  %3 = getelementptr inbounds i8, ptr %iterator, i64 8 
-  store ptr %1, ptr %3, align 8 
-  store i8 1, ptr %_20, align 1 
+  store ptr %arr_start, ptr %iterator, align 8 
+  %iterator.1 = getelementptr inbounds i8, ptr %iterator, i64 8 
+  store ptr %arr_end, ptr %iterator.1, align 8 
+  store i8 1, ptr %val_1, align 1 
   ; call <core::iter::adapters::map::Map<I,F> as core::iter::traits::iterator::Iterator>::next
-  %4 = call { i32, i32 } @"_ZN102_$LT$core..iter..adapters..map..Map$LT$I$C$F$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h98d97217903944d3E"(ptr align 8 %iterator) #16 
+  %4 = call { i32, i32 } @map_next(ptr align 8 %iterator) #16 
   %5 = extractvalue { i32, i32 } %4, 0 
   %6 = extractvalue { i32, i32 } %4, 1 
   store i32 %5, ptr %_3, align 4 
@@ -292,10 +293,10 @@ start:
   %9 = icmp eq i64 %_5, 0 
   br i1 %9, label %bb12, label %bb3 bb12: 
   ; preds = %bb1
-  store i64 0, ptr %_0, align 8 
-  %10 = getelementptr inbounds i8, ptr %_0, i64 8 
+  store i64 0, ptr %vec, align 8 
+  %10 = getelementptr inbounds i8, ptr %vec, i64 8 
   store ptr inttoptr(i64 4 to ptr), ptr %10, align 8 
-  %11 = getelementptr inbounds i8, ptr %_0, i64 16 
+  %11 = getelementptr inbounds i8, ptr %vec, i64 16 
   store i64 0, ptr %11, align 8 
   br label %bb6 bb3: 
   ; preds = %bb1
@@ -336,7 +337,7 @@ start:
   %18 = getelementptr inbounds i8, ptr %vector1, i64 16 
   store i64 1, ptr %18, align 8 
   call void @llvm.memcpy.p0.p0.i64(ptr align 8 %vector, ptr align 8 %vector1, i64 24, i1 false) 
-  store i8 0, ptr %_20, align 1 
+  store i8 0, ptr %val_1, align 1 
   %_19.0 = load ptr, ptr %iterator, align 8, !nonnull !4, !noundef !4 
   %19 = getelementptr inbounds i8, ptr %iterator, i64 8 
   %_19.1 = load ptr, ptr %19, align 8, !noundef !4 
@@ -344,7 +345,7 @@ start:
   call void @"_ZN97_$LT$alloc..vec..Vec$LT$T$C$A$GT$$u20$as$u20$alloc..vec..spec_extend..SpecExtend$LT$T$C$I$GT$$GT$11spec_extend17hcdf7fc063c5940bcE"(ptr align 8 %vector, ptr %_19.0, ptr %_19.1) #16 
   br label %bb5 bb5: 
   ; preds = %bb16
-  call void @llvm.memcpy.p0.p0.i64(ptr align 8 %_0, ptr align 8 %vector, i64 24, i1 false) 
+  call void @llvm.memcpy.p0.p0.i64(ptr align 8 %vec, ptr align 8 %vector, i64 24, i1 false) 
   br label %bb6 bb7: 
   ; preds = %funclet_bb7
   ; call core::ptr::drop_in_place<alloc::vec::Vec<u32>>
@@ -354,7 +355,7 @@ start:
   %cleanuppad = cleanuppad within none [] 
   br label %bb7 bb11: 
   ; preds = %funclet_bb11
-  %20 = load i8, ptr %_20, align 1, !range !7, !noundef !4 
+  %20 = load i8, ptr %val_1, align 1, !range !7, !noundef !4 
   %21 = trunc i8 %20 to i1 
   br i1 %21, label %bb10, label %bb8 funclet_bb11: 
   ; preds = %bb9, %bb7
@@ -877,12 +878,14 @@ start:
 
 ; core::iter::traits::iterator::Iterator::map
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { ptr, ptr } @_ZN4core4iter6traits8iterator8Iterator3map17h22d899c5b904e79eE(ptr %self.0, ptr %self.1) unnamed_addr #0 { 
+define internal { ptr, ptr } @core_iter_map_2(ptr %arr_start, ptr %arr_end) unnamed_addr #0 { 
 start: 
+  ;# type { %"core::iter::adapters::filter::Filter<core::iter::adapters::map::Map<core::iter::adapters::filter::Filter<core::slice::iter::Iter<'_, u32>, {closure@src\\main.rs:7:17: 7:21}>, {closure@src\\main.rs:8:14: 8:17}>, {closure@src\\main.rs:9:17: 9:21}>", %"{closure@src\\main.rs:10:14: 10:17}" }
+  ;=type {{{{{ ptr, ptr, { }}, { }}, {}}, {}}, {}}
   %_0 = alloca %"core::iter::adapters::map::Map<core::iter::adapters::filter::Filter<core::iter::adapters::map::Map<core::iter::adapters::filter::Filter<core::slice::iter::Iter<'_, u32>, {closure@src\\main.rs:7:17: 7:21}>, {closure@src\\main.rs:8:14: 8:17}>, {closure@src\\main.rs:9:17: 9:21}>, {closure@src\\main.rs:10:14: 10:17}>", align 8 
-  store ptr %self.0, ptr %_0, align 8 
+  store ptr %arr_start, ptr %_0, align 8 
   %0 = getelementptr inbounds i8, ptr %_0, i64 8 
-  store ptr %self.1, ptr %0, align 8 
+  store ptr %arr_end, ptr %0, align 8 
   %1 = load ptr, ptr %_0, align 8, !nonnull !4, !noundef !4 
   %2 = getelementptr inbounds i8, ptr %_0, i64 8 
   %3 = load ptr, ptr %2, align 8, !noundef !4 
@@ -893,23 +896,26 @@ start:
 
 ; core::iter::traits::iterator::Iterator::map
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { ptr, ptr } @_ZN4core4iter6traits8iterator8Iterator3map17h8ee1b17c82581549E(ptr %self.0, ptr %self.1) unnamed_addr #0 { 
+;# (arr_start, arr_end)
+define internal { ptr, ptr } @core_iter_map_1(ptr %arr_start, ptr %arr_end) unnamed_addr #0 { 
 start: 
-  %_0 = alloca %"core::iter::adapters::map::Map<core::iter::adapters::filter::Filter<core::slice::iter::Iter<'_, u32>, {closure@src\\main.rs:7:17: 7:21}>, {closure@src\\main.rs:8:14: 8:17}>", align 8 
-  store ptr %self.0, ptr %_0, align 8 
-  %0 = getelementptr inbounds i8, ptr %_0, i64 8 
-  store ptr %self.1, ptr %0, align 8 
-  %1 = load ptr, ptr %_0, align 8, !nonnull !4, !noundef !4 
-  %2 = getelementptr inbounds i8, ptr %_0, i64 8 
-  %3 = load ptr, ptr %2, align 8, !noundef !4 
-  %4 = insertvalue { ptr, ptr } poison, ptr %1, 0 
-  %5 = insertvalue { ptr, ptr } %4, ptr %3, 1 
+  ;# type { %"core::iter::adapters::filter::Filter<core::slice::iter::Iter<'_, u32>, {closure@src\\main.rs:7:17: 7:21}>", %"{closure@src\\main.rs:8:14: 8:17}" }
+  ;#=type {{{ ptr, ptr, { }}, { }}, {}}
+  %map = alloca %"core::iter::adapters::map::Map<core::iter::adapters::filter::Filter<core::slice::iter::Iter<'_, u32>, {closure@src\\main.rs:7:17: 7:21}>, {closure@src\\main.rs:8:14: 8:17}>", align 8 
+  store ptr %arr_start, ptr %map, align 8 
+  %map.1 = getelementptr inbounds i8, ptr %map, i64 8 
+  store ptr %arr_end, ptr %map.1, align 8 
+  %arr_start_2 = load ptr, ptr %map, align 8, !nonnull !4, !noundef !4 
+  %map.1_2 = getelementptr inbounds i8, ptr %map, i64 8 
+  %arr_end_2 = load ptr, ptr %map.1_2, align 8, !noundef !4 
+  %4 = insertvalue { ptr, ptr } poison, ptr %arr_start_2, 0 
+  %5 = insertvalue { ptr, ptr } %4, ptr %arr_end_2, 1 
   ret { ptr, ptr } %5 
 }
 
 ; core::iter::traits::iterator::Iterator::find
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { i32, i32 } @_ZN4core4iter6traits8iterator8Iterator4find17h08a341f267228182E(ptr align 8 %self, ptr align 1 %predicate) unnamed_addr #0 { 
+define internal { i32, i32 } @iterator_find(ptr align 8 %iterator, ptr align 1 %predicate) unnamed_addr #0 { 
 start: 
   %_4 = alloca ptr, align 8 
   %self1 = alloca %"core::ops::control_flow::ControlFlow<u32>", align 4 
@@ -917,7 +923,7 @@ start:
   store ptr %predicate, ptr %_4, align 8 
   %0 = load ptr, ptr %_4, align 8, !nonnull !4, !align !5, !noundef !4 
   ; call <core::iter::adapters::map::Map<I,F> as core::iter::traits::iterator::Iterator>::try_fold
-  %1 = call { i32, i32 } @"_ZN102_$LT$core..iter..adapters..map..Map$LT$I$C$F$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$8try_fold17hb5071e284b0a6f17E"(ptr align 8 %self, ptr align 1 %0) #16 
+  %1 = call { i32, i32 } @iter_map_try_fold(ptr align 8 %iterator, ptr align 1 %0) #16 
   %2 = extractvalue { i32, i32 } %1, 0 
   %3 = extractvalue { i32, i32 } %1, 1 
   store i32 %2, ptr %self1, align 4 
@@ -995,42 +1001,48 @@ start:
 
 ; core::iter::traits::iterator::Iterator::filter
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { ptr, ptr } @_ZN4core4iter6traits8iterator8Iterator6filter17h030b7f1db8422322E(ptr %self.0, ptr %self.1) unnamed_addr #0 { 
+  ;# (arr_start, arr_end)
+define internal { ptr, ptr } @filter_2(ptr %arr_start, ptr %arr_end) unnamed_addr #0 { 
 start: 
-  %_0 = alloca %"core::iter::adapters::filter::Filter<core::iter::adapters::map::Map<core::iter::adapters::filter::Filter<core::slice::iter::Iter<'_, u32>, {closure@src\\main.rs:7:17: 7:21}>, {closure@src\\main.rs:8:14: 8:17}>, {closure@src\\main.rs:9:17: 9:21}>", align 8 
-  store ptr %self.0, ptr %_0, align 8 
-  %0 = getelementptr inbounds i8, ptr %_0, i64 8 
-  store ptr %self.1, ptr %0, align 8 
-  %1 = load ptr, ptr %_0, align 8, !nonnull !4, !noundef !4 
-  %2 = getelementptr inbounds i8, ptr %_0, i64 8 
-  %3 = load ptr, ptr %2, align 8, !noundef !4 
-  %4 = insertvalue { ptr, ptr } poison, ptr %1, 0 
-  %5 = insertvalue { ptr, ptr } %4, ptr %3, 1 
+  ;# type { %"core::iter::adapters::map::Map<core::iter::adapters::filter::Filter<core::slice::iter::Iter<'_, u32>, {closure@src\\main.rs:7:17: 7:21}>, {closure@src\\main.rs:8:14: 8:17}>", %"{closure@src\\main.rs:9:17: 9:21}" }
+  ;#=type {{{{ ptr, ptr, { }}, { }}, {}}, {}}
+  %filter = alloca %"core::iter::adapters::filter::Filter<core::iter::adapters::map::Map<core::iter::adapters::filter::Filter<core::slice::iter::Iter<'_, u32>, {closure@src\\main.rs:7:17: 7:21}>, {closure@src\\main.rs:8:14: 8:17}>, {closure@src\\main.rs:9:17: 9:21}>", align 8 
+  store ptr %arr_start, ptr %filter, align 8 
+  %filter.1 = getelementptr inbounds i8, ptr %filter, i64 8 
+  store ptr %arr_end, ptr %filter.1, align 8 
+  %arr_start_2 = load ptr, ptr %filter, align 8, !nonnull !4, !noundef !4 
+  %filter.1_2 = getelementptr inbounds i8, ptr %filter, i64 8 
+  %arr_end_2 = load ptr, ptr %filter.1_2, align 8, !noundef !4 
+  %4 = insertvalue { ptr, ptr } poison, ptr %arr_start_2, 0 
+  %5 = insertvalue { ptr, ptr } %4, ptr %arr_end_2, 1 
   ret { ptr, ptr } %5 
 }
 
 ; core::iter::traits::iterator::Iterator::filter
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { ptr, ptr } @_ZN4core4iter6traits8iterator8Iterator6filter17h2f0f091acbe8257aE(ptr %self.0, ptr %self.1) unnamed_addr #0 { 
+;# (arr_start, arr_end)
+define internal { ptr, ptr } @core_iter_filter_1(ptr %arr_start, ptr %arr_end) unnamed_addr #0 { 
 start: 
-  %_0 = alloca %"core::iter::adapters::filter::Filter<core::slice::iter::Iter<'_, u32>, {closure@src\\main.rs:7:17: 7:21}>", align 8 
-  store ptr %self.0, ptr %_0, align 8 
-  %0 = getelementptr inbounds i8, ptr %_0, i64 8 
-  store ptr %self.1, ptr %0, align 8 
-  %1 = load ptr, ptr %_0, align 8, !nonnull !4, !noundef !4 
-  %2 = getelementptr inbounds i8, ptr %_0, i64 8 
-  %3 = load ptr, ptr %2, align 8, !noundef !4 
-  %4 = insertvalue { ptr, ptr } poison, ptr %1, 0 
-  %5 = insertvalue { ptr, ptr } %4, ptr %3, 1 
+;# type { %"core::slice::iter::Iter<'_, u32>", %"{closure@src\\main.rs:7:17: 7:21}" }
+;# = type {{ ptr, ptr, { }}, { }}
+  %filter = alloca %"core::iter::adapters::filter::Filter<core::slice::iter::Iter<'_, u32>, {closure@src\\main.rs:7:17: 7:21}>", align 8 
+  store ptr %arr_start, ptr %filter, align 8 
+  %filter.1 = getelementptr inbounds i8, ptr %filter, i64 8 
+  store ptr %arr_end, ptr %filter.1, align 8 
+  %arr_start_2 = load ptr, ptr %filter, align 8, !nonnull !4, !noundef !4 
+  %filter.1_2 = getelementptr inbounds i8, ptr %filter, i64 8 
+  %arr_end_2 = load ptr, ptr %filter.1_2, align 8, !noundef !4 
+  %4 = insertvalue { ptr, ptr } poison, ptr %arr_start_2, 0 
+  %5 = insertvalue { ptr, ptr } %4, ptr %arr_end_2, 1 
   ret { ptr, ptr } %5 
 }
 
 ; core::iter::traits::iterator::Iterator::collect
 ; Function Attrs: inlinehint nounwind uwtable
-define internal void @_ZN4core4iter6traits8iterator8Iterator7collect17h0f5828a006146eaaE(ptr sret([24 x i8]) align 8 %_0, ptr %self.0, ptr %self.1) unnamed_addr #0 { 
+define internal void @core_iter_collect(ptr sret([24 x i8]) align 8 %vec, ptr %arr_start, ptr %arr_end) unnamed_addr #0 { 
 start: 
   ; call <alloc::vec::Vec<T> as core::iter::traits::collect::FromIterator<T>>::from_iter
-  call void @"_ZN95_$LT$alloc..vec..Vec$LT$T$GT$$u20$as$u20$core..iter..traits..collect..FromIterator$LT$T$GT$$GT$9from_iter17h34d191a863b3304fE"(ptr sret([24 x i8]) align 8 %_0, ptr %self.0, ptr %self.1) #16 
+  call void @vec_core_iter_collect_from_iter(ptr sret([24 x i8]) align 8 %vec, ptr %arr_start, ptr %arr_end) #16 
   ret void 
 }
 
@@ -1447,7 +1459,7 @@ start:
   br label %bb1 bb1: 
   ; preds = %bb8, %start
   ; call <core::iter::adapters::map::Map<I,F> as core::iter::traits::iterator::Iterator>::next
-  %4 = call { i32, i32 } @"_ZN102_$LT$core..iter..adapters..map..Map$LT$I$C$F$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h98d97217903944d3E"(ptr align 8 %iterator) #16 
+  %4 = call { i32, i32 } @map_next(ptr align 8 %iterator) #16 
   %5 = extractvalue { i32, i32 } %4, 0 
   %6 = extractvalue { i32, i32 } %4, 1 
   store i32 %5, ptr %_3, align 4 
@@ -2807,10 +2819,10 @@ start:
 
 ; <I as core::iter::traits::collect::IntoIterator>::into_iter
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { ptr, ptr } @"_ZN63_$LT$I$u20$as$u20$core..iter..traits..collect..IntoIterator$GT$9into_iter17h04538d4332a2f3dfE"(ptr %self.0, ptr %self.1) unnamed_addr #0 { 
+define internal { ptr, ptr } @core_iter_collect_into_iter(ptr %arr_start, ptr %arr_end) unnamed_addr #0 { 
 start: 
-  %0 = insertvalue { ptr, ptr } poison, ptr %self.0, 0 
-  %1 = insertvalue { ptr, ptr } %0, ptr %self.1, 1 
+  %0 = insertvalue { ptr, ptr } poison, ptr %arr_start, 0 
+  %1 = insertvalue { ptr, ptr } %0, ptr %arr_end, 1 
   ret { ptr, ptr } %1 
 }
 
@@ -3112,14 +3124,15 @@ start:
 
 ; <alloc::vec::Vec<T> as core::iter::traits::collect::FromIterator<T>>::from_iter
 ; Function Attrs: inlinehint nounwind uwtable
-define internal void @"_ZN95_$LT$alloc..vec..Vec$LT$T$GT$$u20$as$u20$core..iter..traits..collect..FromIterator$LT$T$GT$$GT$9from_iter17h34d191a863b3304fE"(ptr sret([24 x i8]) align 8 %_0, ptr %iter.0, ptr %iter.1) unnamed_addr #0 { 
+define internal void @vec_core_iter_collect_from_iter(ptr sret([24 x i8]) align 8 %vec, ptr %arr_start, ptr %arr_end) unnamed_addr #0 { 
 start: 
   ; call <I as core::iter::traits::collect::IntoIterator>::into_iter
-  %0 = call { ptr, ptr } @"_ZN63_$LT$I$u20$as$u20$core..iter..traits..collect..IntoIterator$GT$9into_iter17h04538d4332a2f3dfE"(ptr %iter.0, ptr %iter.1) #16 
+  %0 = call { ptr, ptr } @core_iter_collect_into_iter(ptr %arr_start, ptr %arr_end) #16 
+  ;# (arr_start, arr_end)
   %_2.0 = extractvalue { ptr, ptr } %0, 0 
   %_2.1 = extractvalue { ptr, ptr } %0, 1 
   ; call <alloc::vec::Vec<T> as alloc::vec::spec_from_iter::SpecFromIter<T,I>>::from_iter
-  call void @"_ZN98_$LT$alloc..vec..Vec$LT$T$GT$$u20$as$u20$alloc..vec..spec_from_iter..SpecFromIter$LT$T$C$I$GT$$GT$9from_iter17h59fe82c71c301a67E"(ptr sret([24 x i8]) align 8 %_0, ptr %_2.0, ptr %_2.1) #16 
+  call void @vec_spec_from_iter(ptr sret([24 x i8]) align 8 %vec, ptr %_2.0, ptr %_2.1) #16 
   ret void 
 }
 
@@ -3185,10 +3198,10 @@ start:
 
 ; <alloc::vec::Vec<T> as alloc::vec::spec_from_iter::SpecFromIter<T,I>>::from_iter
 ; Function Attrs: nounwind uwtable
-define internal void @"_ZN98_$LT$alloc..vec..Vec$LT$T$GT$$u20$as$u20$alloc..vec..spec_from_iter..SpecFromIter$LT$T$C$I$GT$$GT$9from_iter17h59fe82c71c301a67E"(ptr sret([24 x i8]) align 8 %_0, ptr %iterator.0, ptr %iterator.1) unnamed_addr #1 { 
+define internal void @vec_spec_from_iter(ptr sret([24 x i8]) align 8 %vec, ptr %arr_start, ptr %arr_end) unnamed_addr #1 { 
 start: 
   ; call <alloc::vec::Vec<T> as alloc::vec::spec_from_iter_nested::SpecFromIterNested<T,I>>::from_iter
-  call void @"_ZN111_$LT$alloc..vec..Vec$LT$T$GT$$u20$as$u20$alloc..vec..spec_from_iter_nested..SpecFromIterNested$LT$T$C$I$GT$$GT$9from_iter17haef64b790c72f374E"(ptr sret([24 x i8]) align 8 %_0, ptr %iterator.0, ptr %iterator.1) #16 
+  call void @vec_spec_from_iter_nested(ptr sret([24 x i8]) align 8 %vec, ptr %arr_start, ptr %arr_end) #16 
   ret void 
 }
 
@@ -3210,7 +3223,7 @@ start:
   %_0.i = alloca %"core::fmt::rt::Argument<'_>", align 8
   %_13 = alloca [1 x %"core::fmt::rt::Argument<'_>"], align 8
   %_9 = alloca %"core::fmt::Arguments<'_>", align 8
-  %iter_vec = alloca %"alloc::vec::Vec<u32>", align 8
+  %vec = alloca %"alloc::vec::Vec<u32>", align 8
 ; call core::slice::<impl [T]>::iter
   %0 = call { ptr, ptr } @core_slice_iter(ptr align 4 @arr.ptr, i64 9) #16
   ;# arr_start
@@ -3218,25 +3231,33 @@ start:
   ;# arr_end
   %_6.1 = extractvalue { ptr, ptr } %0, 1
 ; call core::iter::traits::iterator::Iterator::filter
-  %1 = call { ptr, ptr } @_ZN4core4iter6traits8iterator8Iterator6filter17h2f0f091acbe8257aE(ptr %_6.0, ptr %_6.1) #16
+  ;# (arr_start, arr_end)
+  %1 = call { ptr, ptr } @core_iter_filter_1(ptr %_6.0, ptr %_6.1) #16
+  ;# arr_start
   %_5.0 = extractvalue { ptr, ptr } %1, 0
+  ;# arr_end
   %_5.1 = extractvalue { ptr, ptr } %1, 1
+  ;# (arr_start, arr_end)
 ; call core::iter::traits::iterator::Iterator::map
-  %2 = call { ptr, ptr } @_ZN4core4iter6traits8iterator8Iterator3map17h8ee1b17c82581549E(ptr %_5.0, ptr %_5.1) #16
+  %2 = call { ptr, ptr } @core_iter_map_1(ptr %_5.0, ptr %_5.1) #16
+  ;# (arr_start, arr_end)
   %_4.0 = extractvalue { ptr, ptr } %2, 0
   %_4.1 = extractvalue { ptr, ptr } %2, 1
 ; call core::iter::traits::iterator::Iterator::filter
-  %3 = call { ptr, ptr } @_ZN4core4iter6traits8iterator8Iterator6filter17h030b7f1db8422322E(ptr %_4.0, ptr %_4.1) #16
+  ;# (arr_start, arr_end)
+  %3 = call { ptr, ptr } @filter_2(ptr %_4.0, ptr %_4.1) #16
   %_3.0 = extractvalue { ptr, ptr } %3, 0
   %_3.1 = extractvalue { ptr, ptr } %3, 1
 ; call core::iter::traits::iterator::Iterator::map
-  %4 = call { ptr, ptr } @_ZN4core4iter6traits8iterator8Iterator3map17h22d899c5b904e79eE(ptr %_3.0, ptr %_3.1) #16
+  %4 = call { ptr, ptr } @core_iter_map_2(ptr %_3.0, ptr %_3.1) #16
+  ;# (arr_start, arr_end)
   %_2.0 = extractvalue { ptr, ptr } %4, 0
   %_2.1 = extractvalue { ptr, ptr } %4, 1
 ; call core::iter::traits::iterator::Iterator::collect
-  call void @_ZN4core4iter6traits8iterator8Iterator7collect17h0f5828a006146eaaE(ptr sret([24 x i8]) align 8 %iter_vec, ptr %_2.0, ptr %_2.1) #16
+  ;# (vec, arr_start, arr_end)
+  call void @core_iter_collect(ptr sret([24 x i8]) align 8 %vec, ptr %_2.0, ptr %_2.1) #16
 ; call <alloc::vec::Vec<T,A> as core::ops::index::Index<I>>::index
-  %_15 = call ptr @"_ZN81_$LT$alloc..vec..Vec$LT$T$C$A$GT$$u20$as$u20$core..ops..index..Index$LT$I$GT$$GT$5index17hdbffa9f183664e71E"(ptr align 8 %iter_vec, i64 0, ptr align 8 @alloc_da60e9796739a01eb9026e0ab1227684) #16
+  %_15 = call ptr @"_ZN81_$LT$alloc..vec..Vec$LT$T$C$A$GT$$u20$as$u20$core..ops..index..Index$LT$I$GT$$GT$5index17hdbffa9f183664e71E"(ptr align 8 %vec, i64 0, ptr align 8 @alloc_da60e9796739a01eb9026e0ab1227684) #16
   store ptr %_15, ptr %_0.i, align 8
   %5 = getelementptr inbounds i8, ptr %_0.i, i64 8
   store ptr @"_ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u32$GT$3fmt17h75c445a3aa03af42E", ptr %5, align 8
@@ -3256,7 +3277,7 @@ start:
 ; call std::io::stdio::_print
   call void @_ZN3std2io5stdio6_print17he0468e1d0bbe1c44E(ptr align 8 %_9) #16
 ; call core::ptr::drop_in_place<alloc::vec::Vec<u32>>
-  call void @"_ZN4core3ptr47drop_in_place$LT$alloc..vec..Vec$LT$u32$GT$$GT$17h783f8f259ee5377bE"(ptr align 8 %iter_vec) #16
+  call void @"_ZN4core3ptr47drop_in_place$LT$alloc..vec..Vec$LT$u32$GT$$GT$17h783f8f259ee5377bE"(ptr align 8 %vec) #16
   ret void
 }
 
