@@ -1,0 +1,29 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "DebuggingLLVMIR",
+            "type": "lldb",
+            "request": "launch",
+            "cwd": "${workspaceFolder}\\some\\path",
+            "program": "${workspaceFolder}\\some\\path\\to\\your_exe.exe",
+            "args": [
+                "your_cmd_line_arg"
+            ],
+            "environment": [
+                {
+                    "name": "BUILD_CONFIGURATION",
+                    "value": "Debug"
+                }, // Unrelated example of an env var.
+                {
+                    "name": "PATH",
+                    "value": "../../SomeDir/bin/Debug/bin;../../../SomeDir/Native/build"
+                } // Optional.
+            ],
+            "console": "integratedTerminal"
+        },
+    ]
+}

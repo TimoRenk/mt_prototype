@@ -29,6 +29,12 @@ $"??_C@_03OHEJPPDF@?$CFp?6?$AA@" = comdat any
 @"??_C@_03OHEJPPDF@?$CFp?6?$AA@" = linkonce_odr dso_local unnamed_addr constant [4 x i8] c "%p\0A\00", comdat, align 1
 @__local_stdio_printf_options._OptionsStorage = internal global i64 0, align 8
 
+; getSize:
+; %size = getelementptr { i32, i32, i32 }, ptr null, i32 1
+; %size_i = ptrtoint { i32, i32,i32 }* %size to i64
+; call void @print_ptr(ptr %size)
+; call void @print_i64(i64 %size_i)
+
 define external void @print_ptr(ptr %ptr) noinline nounwind optnone uwtable { 
   %_0 = call i32(ptr, ...) @printf(ptr noundef @"??_C@_03OHEJPPDF@?$CFp?6?$AA@", ptr noundef %ptr) 
   ret void 
