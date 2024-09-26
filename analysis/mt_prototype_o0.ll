@@ -134,18 +134,18 @@ start:
 
 ; <core::iter::adapters::map::Map<I,F> as core::iter::traits::iterator::Iterator>::try_fold
 ; Function Attrs: nounwind uwtable
-define internal { i32, i32 } @iter_map_try_fold(ptr align 8 %self, ptr align 1 %g) unnamed_addr #1 { 
+define internal { i32, i32 } @iter_map_try_fold(ptr align 8 %iter, ptr align 1 %iter.2) unnamed_addr #1 { 
 start: 
-  %_5 = alloca %"{closure@core::iter::adapters::map::map_try_fold<'_, &u32, u32, (), core::ops::control_flow::ControlFlow<u32>, {closure@src\\main.rs:8:14: 8:17}, {closure@core::iter::traits::iterator::Iterator::find::check<u32, &mut {closure@src\\main.rs:9:17: 9:21}>::{closure#0}}>::{closure#0}}", align 8 
-  %f = getelementptr inbounds i8, ptr %self, i64 16 
-  store ptr %g, ptr %_5, align 8 
-  %0 = getelementptr inbounds i8, ptr %_5, i64 8 
-  store ptr %f, ptr %0, align 8 
-  %1 = load ptr, ptr %_5, align 8, !nonnull !4, !align !5, !noundef !4 
-  %2 = getelementptr inbounds i8, ptr %_5, i64 8 
-  %3 = load ptr, ptr %2, align 8, !nonnull !4, !align !5, !noundef !4 
+  %iter.2.ptr = alloca %"{closure@core::iter::adapters::map::map_try_fold<'_, &u32, u32, (), core::ops::control_flow::ControlFlow<u32>, {closure@src\\main.rs:8:14: 8:17}, {closure@core::iter::traits::iterator::Iterator::find::check<u32, &mut {closure@src\\main.rs:9:17: 9:21}>::{closure#0}}>::{closure#0}}", align 8 
+  %iter.2_2 = getelementptr inbounds i8, ptr %iter, i64 16 
+  store ptr %iter.2, ptr %iter.2.ptr, align 8  
+  %iter.2.ptr.1 = getelementptr inbounds i8, ptr %iter.2.ptr, i64 8 
+  store ptr %iter.2_2, ptr %iter.2.ptr.1, align 8 
+  %iter.2_3 = load ptr, ptr %iter.2.ptr, align 8, !nonnull !4, !align !5, !noundef !4 
+  %iter.2.ptr.1_2 = getelementptr inbounds i8, ptr %iter.2.ptr, i64 8 
+  %iter.2_4 = load ptr, ptr %iter.2.ptr.1_2, align 8, !nonnull !4, !align !5, !noundef !4 
   ; call <core::iter::adapters::filter::Filter<I,P> as core::iter::traits::iterator::Iterator>::try_fold
-  %4 = call { i32, i32 } @"_ZN108_$LT$core..iter..adapters..filter..Filter$LT$I$C$P$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$8try_fold17h09a2f8d18d35bcabE"(ptr align 8 %self, ptr align 1 %1, ptr align 1 %3) #16 
+  %4 = call { i32, i32 } @iter_filter_try_fold(ptr align 8 %iter, ptr align 1 %iter.2_3, ptr align 1 %iter.2_4) #16 
   %_0.0 = extractvalue { i32, i32 } %4, 0 
   %_0.1 = extractvalue { i32, i32 } %4, 1 
   %5 = insertvalue { i32, i32 } poison, i32 %_0.0, 0 
@@ -206,17 +206,17 @@ start:
 
 ; <core::iter::adapters::filter::Filter<I,P> as core::iter::traits::iterator::Iterator>::try_fold
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { i32, i32 } @"_ZN108_$LT$core..iter..adapters..filter..Filter$LT$I$C$P$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$8try_fold17h09a2f8d18d35bcabE"(ptr align 8 %self, ptr align 1 %fold.0, ptr align 1 %fold.1) unnamed_addr #0 { 
+define internal { i32, i32 } @iter_filter_try_fold(ptr align 8 %iter, ptr align 1 %iter.2, ptr align 1 %iter.2_2) unnamed_addr #0 { 
 start: 
-  %_5 = alloca %"{closure@core::iter::adapters::filter::filter_try_fold<'_, &u32, (), core::ops::control_flow::ControlFlow<u32>, {closure@src\\main.rs:7:17: 7:21}, {closure@core::iter::adapters::map::map_try_fold<'_, &u32, u32, (), core::ops::control_flow::ControlFlow<u32>, {closure@src\\main.rs:8:14: 8:17}, {closure@core::iter::traits::iterator::Iterator::find::check<u32, &mut {closure@src\\main.rs:9:17: 9:21}>::{closure#0}}>::{closure#0}}>::{closure#0}}", align 8 
-  %predicate = getelementptr inbounds i8, ptr %self, i64 16 
-  store ptr %predicate, ptr %_5, align 8 
-  %0 = getelementptr inbounds i8, ptr %_5, i64 8 
-  store ptr %fold.0, ptr %0, align 8 
-  %1 = getelementptr inbounds i8, ptr %0, i64 8 
-  store ptr %fold.1, ptr %1, align 8 
+  %iter.2.ptr = alloca %"{closure@core::iter::adapters::filter::filter_try_fold<'_, &u32, (), core::ops::control_flow::ControlFlow<u32>, {closure@src\\main.rs:7:17: 7:21}, {closure@core::iter::adapters::map::map_try_fold<'_, &u32, u32, (), core::ops::control_flow::ControlFlow<u32>, {closure@src\\main.rs:8:14: 8:17}, {closure@core::iter::traits::iterator::Iterator::find::check<u32, &mut {closure@src\\main.rs:9:17: 9:21}>::{closure#0}}>::{closure#0}}>::{closure#0}}", align 8 
+  %iter.2_3 = getelementptr inbounds i8, ptr %iter, i64 16 
+  store ptr %iter.2_3, ptr %iter.2.ptr, align 8 
+  %iter.2.ptr.2 = getelementptr inbounds i8, ptr %iter.2.ptr, i64 8 
+  store ptr %iter.2, ptr %iter.2.ptr.2, align 8 
+  %iter.2.ptr.3 = getelementptr inbounds i8, ptr %iter.2.ptr.2, i64 8 
+  store ptr %iter.2_2, ptr %iter.2.ptr.3, align 8 
   ; call core::iter::traits::iterator::Iterator::try_fold
-  %2 = call { i32, i32 } @_ZN4core4iter6traits8iterator8Iterator8try_fold17h4618b9e00f4d0357E(ptr align 8 %self, ptr align 8 %_5) #16 
+  %2 = call { i32, i32 } @iter_try_fold(ptr align 8 %iter, ptr align 8 %iter.2.ptr) #16 
   %_0.0 = extractvalue { i32, i32 } %2, 0 
   %_0.1 = extractvalue { i32, i32 } %2, 1 
   %3 = insertvalue { i32, i32 } poison, i32 %_0.0, 0 
@@ -700,7 +700,7 @@ start:
   %_3 = load ptr, ptr %self, align 8, !nonnull !4, !align !5, !noundef !4 
   %1 = load ptr, ptr %args, align 8, !nonnull !4, !align !11, !noundef !4 
   ; call mt_prototype::main::{{closure}}
-  %_0 = call zeroext i1 @"_ZN12mt_prototype4main28_$u7b$$u7b$closure$u7d$$u7d$17h7c3a7e3a6a7b0d20E"(ptr align 1 %_3, ptr align 4 %1) #16 
+  %_0 = call zeroext i1 @main_closure_lt_20(ptr align 1 %_3, ptr align 4 %1) #16 
   ret i1 %_0 
 }
 
@@ -712,7 +712,7 @@ start:
   store i32 %0, ptr %args, align 4 
   %1 = load i32, ptr %args, align 4, !noundef !4 
   ; call mt_prototype::main::{{closure}}
-  %_0 = call i32 @"_ZN12mt_prototype4main28_$u7b$$u7b$closure$u7d$$u7d$17hde5531869eecdc34E"(ptr align 1 %self, i32 %1) #16 
+  %_0 = call i32 @main_closure_iadd(ptr align 1 %self, i32 %1) #16 
   ret i32 %_0 
 }
 
@@ -915,15 +915,15 @@ start:
 
 ; core::iter::traits::iterator::Iterator::find
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { i32, i32 } @iterator_find(ptr align 8 %iterator, ptr align 1 %predicate) unnamed_addr #0 { 
+define internal { i32, i32 } @iterator_find(ptr align 8 %iterator, ptr align 1 %iterator.2) unnamed_addr #0 { 
 start: 
-  %_4 = alloca ptr, align 8 
+  %iterator.2.ptr = alloca ptr, align 8 
   %self1 = alloca %"core::ops::control_flow::ControlFlow<u32>", align 4 
   %_0 = alloca %"core::option::Option<u32>", align 4 
-  store ptr %predicate, ptr %_4, align 8 
-  %0 = load ptr, ptr %_4, align 8, !nonnull !4, !align !5, !noundef !4 
+  store ptr %iterator.2, ptr %iterator.2.ptr, align 8 
+  %iterator.2_2 = load ptr, ptr %iterator.2.ptr, align 8, !nonnull !4, !align !5, !noundef !4 
   ; call <core::iter::adapters::map::Map<I,F> as core::iter::traits::iterator::Iterator>::try_fold
-  %1 = call { i32, i32 } @iter_map_try_fold(ptr align 8 %iterator, ptr align 1 %0) #16 
+  %1 = call { i32, i32 } @iter_map_try_fold(ptr align 8 %iterator, ptr align 1 %iterator.2_2) #16 
   %2 = extractvalue { i32, i32 } %1, 0 
   %3 = extractvalue { i32, i32 } %1, 1 
   store i32 %2, ptr %self1, align 4 
@@ -1048,56 +1048,61 @@ start:
 
 ; core::iter::traits::iterator::Iterator::try_fold
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { i32, i32 } @_ZN4core4iter6traits8iterator8Iterator8try_fold17h4618b9e00f4d0357E(ptr align 8 %self, ptr align 8 %f) unnamed_addr #0 personality ptr @__CxxFrameHandler3 { 
+define internal { i32, i32 } @iter_try_fold(ptr align 8 %iter, ptr align 8 %iter.2.ptr) unnamed_addr #0 personality ptr @__CxxFrameHandler3 { 
 start: 
-  %_17 = alloca i8, align 1 
+  %flag_is_end = alloca i8, align 1 
   %_11 = alloca ptr, align 8 
   %_8 = alloca %"core::ops::control_flow::ControlFlow<core::ops::control_flow::ControlFlow<u32, core::convert::Infallible>>", align 4 
-  %_5 = alloca ptr, align 8 
+  %old.ptr = alloca ptr, align 8 
   %_0 = alloca %"core::ops::control_flow::ControlFlow<u32>", align 4 
-  store i8 1, ptr %_17, align 1 
+  store i8 1, ptr %flag_is_end, align 1 
   br label %bb1 bb1: 
   ; preds = %bb7, %start
   ; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %0 = call ptr @"_ZN91_$LT$core..slice..iter..Iter$LT$T$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h337d80dd33fc0789E"(ptr align 8 %self) #16 
-  store ptr %0, ptr %_5, align 8 
+  %old = call ptr @iter_next(ptr align 8 %iter) #16 
+  store ptr %old, ptr %old.ptr, align 8 
   br label %bb2 bb2: 
   ; preds = %bb1
-  %1 = load ptr, ptr %_5, align 8, !noundef !4 
-  %2 = ptrtoint ptr %1 to i64 
-  %3 = icmp eq i64 %2, 0 
-  %_6 = select i1 %3, i64 0, i64 1 
-  %4 = icmp eq i64 %_6, 1 
-  br i1 %4, label %bb3, label %bb10 bb3: 
+  %old_2 = load ptr, ptr %old.ptr, align 8, !noundef !4 
+  %old_3 = ptrtoint ptr %old_2 to i64 
+  %is_end = icmp eq i64 %old_3, 0 
+  %_6 = select i1 %is_end, i64 0, i64 1 
+  %is_not_end = icmp eq i64 %_6, 1 
+  br i1 %is_not_end, label %is-not-end, label %is-end 
+is-not-end: 
   ; preds = %bb2
-  %x = load ptr, ptr %_5, align 8, !nonnull !4, !align !11, !noundef !4 
-  store i8 0, ptr %_17, align 1 
-  store ptr %x, ptr %_11, align 8 
-  %5 = load ptr, ptr %_11, align 8, !nonnull !4, !align !11, !noundef !4 
+  %old_4 = load ptr, ptr %old.ptr, align 8, !nonnull !4, !align !11, !noundef !4 
+  store i8 0, ptr %flag_is_end, align 1 
+  store ptr %old_4, ptr %_11, align 8 
+  %old_5 = load ptr, ptr %_11, align 8, !nonnull !4, !align !11, !noundef !4 
   ; call core::iter::adapters::filter::filter_try_fold::{{closure}}
-  %6 = call { i32, i32 } @"_ZN4core4iter8adapters6filter15filter_try_fold28_$u7b$$u7b$closure$u7d$$u7d$17h85dab48b72850ca3E"(ptr align 8 %f, ptr align 4 %5) #16 
+  %6 = call { i32, i32 } @filter_try_fold_closure(ptr align 8 %iter.2.ptr, ptr align 4 %old_5) #16 
   %_9.0 = extractvalue { i32, i32 } %6, 0 
   %_9.1 = extractvalue { i32, i32 } %6, 1 
-  br label %bb4 bb10: 
+  br label %bb4 
+is-end: 
   ; preds = %bb2
-  br label %bb11 bb4: 
+  br label %bb11
+bb4: 
   ; preds = %bb3
   ; call <core::ops::control_flow::ControlFlow<B,C> as core::ops::try_trait::Try>::branch
-  %7 = call { i32, i32 } @"_ZN95_$LT$core..ops..control_flow..ControlFlow$LT$B$C$C$GT$$u20$as$u20$core..ops..try_trait..Try$GT$6branch17h8bf9ac99677da88cE"(i32 %_9.0, i32 %_9.1) #16 
+  %7 = call { i32, i32 } @control_flow_branch(i32 %_9.0, i32 %_9.1) #16 
   %8 = extractvalue { i32, i32 } %7, 0 
   %9 = extractvalue { i32, i32 } %7, 1 
   store i32 %8, ptr %_8, align 4 
   %10 = getelementptr inbounds i8, ptr %_8, i64 4 
   store i32 %9, ptr %10, align 4 
-  br label %bb5 bb5: 
+  br label %bb5
+bb5: 
   ; preds = %bb4
   %11 = load i32, ptr %_8, align 4, !range !3, !noundef !4 
   %_13 = zext i32 %11 to i64 
   %12 = icmp eq i64 %_13, 0 
   br i1 %12, label %bb7, label %bb8 bb7: 
   ; preds = %bb5
-  store i8 1, ptr %_17, align 1 
-  br label %bb1 bb8: 
+  store i8 1, ptr %flag_is_end, align 1 
+  br label %bb1
+bb8: 
   ; preds = %bb5
   %13 = getelementptr inbounds i8, ptr %_8, i64 4 
   %residual = load i32, ptr %13, align 4, !noundef !4 
@@ -1108,38 +1113,46 @@ start:
   store i32 %15, ptr %_0, align 4 
   %17 = getelementptr inbounds i8, ptr %_0, i64 4 
   store i32 %16, ptr %17, align 4 
-  br label %bb9 bb9: 
+  br label %bb9
+bb9: 
   ; preds = %bb8
-  br label %bb13 bb13: 
+  br label %bb13
+bb13: 
   ; preds = %bb12, %bb9
   %18 = load i32, ptr %_0, align 4, !range !3, !noundef !4 
   %19 = getelementptr inbounds i8, ptr %_0, i64 4 
   %20 = load i32, ptr %19, align 4 
   %21 = insertvalue { i32, i32 } poison, i32 %18, 0 
   %22 = insertvalue { i32, i32 } %21, i32 %20, 1 
-  ret { i32, i32 } %22 bb11: 
+  ret { i32, i32 } %22 
+bb11: 
   ; preds = %bb10
-  store i8 0, ptr %_17, align 1 
+  store i8 0, ptr %flag_is_end, align 1 
   ; call <core::ops::control_flow::ControlFlow<B,C> as core::ops::try_trait::Try>::from_output
-  %23 = call { i32, i32 } @"_ZN95_$LT$core..ops..control_flow..ControlFlow$LT$B$C$C$GT$$u20$as$u20$core..ops..try_trait..Try$GT$11from_output17h741b61b0918faaa2E"() #16 
+  %23 = call { i32, i32 } @"dont_know_returns{0, undefined}"() #16 
   %24 = extractvalue { i32, i32 } %23, 0 
   %25 = extractvalue { i32, i32 } %23, 1 
   store i32 %24, ptr %_0, align 4 
   %26 = getelementptr inbounds i8, ptr %_0, i64 4 
   store i32 %25, ptr %26, align 4 
-  br label %bb12 bb12: 
+  br label %bb12
+bb12: 
   ; preds = %bb11
-  br label %bb13 bb6: 
+  br label %bb13
+bb6: 
   ; No predecessors!
-  unreachable bb17: 
+  unreachable 
+bb17: 
   ; preds = %funclet_bb17
-  %27 = load i8, ptr %_17, align 1, !range !7, !noundef !4 
+  %27 = load i8, ptr %flag_is_end, align 1, !range !7, !noundef !4 
   %28 = trunc i8 %27 to i1 
-  br i1 %28, label %bb16, label %bb14 bb14: 
+  br i1 %28, label %bb16, label %bb14 
+bb14: 
   ; preds = %bb16, %bb17
   cleanupret from %cleanuppad unwind to caller bb16: 
   ; preds = %bb17
-  br label %bb14 funclet_bb17: 
+  br label %bb14 
+funclet_bb17: 
   ; No predecessors!
   %cleanuppad = cleanuppad within none [] 
   br label %bb17 
@@ -1147,7 +1160,7 @@ start:
 
 ; core::iter::adapters::map::map_try_fold::{{closure}}
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { i32, i32 } @"_ZN4core4iter8adapters3map12map_try_fold28_$u7b$$u7b$closure$u7d$$u7d$17h5b95b4ad578f13cbE"(ptr align 8 %_1, ptr align 4 %elt) unnamed_addr #0 personality ptr @__CxxFrameHandler3 { 
+define internal { i32, i32 } @adapters_map_try_fold_closure(ptr align 8 %_1, ptr align 4 %elt) unnamed_addr #0 personality ptr @__CxxFrameHandler3 { 
 start: 
   %_10 = alloca i8, align 1 
   %_8 = alloca ptr, align 8 
@@ -1158,7 +1171,7 @@ start:
   store ptr %elt, ptr %_8, align 8 
   %1 = load ptr, ptr %_8, align 8, !nonnull !4, !align !11, !noundef !4 
   ; call mt_prototype::main::{{closure}}
-  %_7 = call i32 @"_ZN12mt_prototype4main28_$u7b$$u7b$closure$u7d$$u7d$17hf2fd91fb7f24ce46E"(ptr align 1 %_9, ptr align 4 %1) #16 
+  %_7 = call i32 @main_closure_uadd_overflow(ptr align 1 %_9, ptr align 4 %1) #16 
   br label %bb1 bb1: 
   ; preds = %start
   store i8 0, ptr %_10, align 1 
@@ -1188,44 +1201,46 @@ start:
 
 ; core::iter::adapters::filter::filter_try_fold::{{closure}}
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { i32, i32 } @"_ZN4core4iter8adapters6filter15filter_try_fold28_$u7b$$u7b$closure$u7d$$u7d$17h85dab48b72850ca3E"(ptr align 8 %_1, ptr align 4 %0) unnamed_addr #0 personality ptr @__CxxFrameHandler3 { 
+define internal { i32, i32 } @filter_try_fold_closure(ptr align 8 %iter.2.ptr, ptr align 4 %current) unnamed_addr #0 personality ptr @__CxxFrameHandler3 { 
 start: 
-  %_14 = alloca i8, align 1 
-  %_13 = alloca i8, align 1 
+  %flag_1 = alloca i8, align 1 
+  %flag_2 = alloca i8, align 1 
   %_8 = alloca ptr, align 8 
   %_5 = alloca ptr, align 8 
   %_0 = alloca %"core::ops::control_flow::ControlFlow<u32>", align 4 
-  %item = alloca ptr, align 8 
-  store ptr %0, ptr %item, align 8 
-  store i8 1, ptr %_14, align 1 
-  store i8 1, ptr %_13, align 1 
-  %_12 = load ptr, ptr %_1, align 8, !nonnull !4, !align !5, !noundef !4 
-  store ptr %item, ptr %_5, align 8 
-  %1 = load ptr, ptr %_5, align 8, !nonnull !4, !align !9, !noundef !4 
+  %current.ptr = alloca ptr, align 8 
+  store ptr %current, ptr %current.ptr, align 8 
+  store i8 1, ptr %flag_1, align 1 
+  store i8 1, ptr %flag_2, align 1 
+  %iter.2 = load ptr, ptr %iter.2.ptr, align 8, !nonnull !4, !align !5, !noundef !4 
+  store ptr %current.ptr, ptr %_5, align 8 
+  %current.ptr_2 = load ptr, ptr %_5, align 8, !nonnull !4, !align !9, !noundef !4 
   ; call mt_prototype::main::{{closure}}
-  %_4 = call zeroext i1 @"_ZN12mt_prototype4main28_$u7b$$u7b$closure$u7d$$u7d$17h3cd67fad8aa35774E"(ptr align 1 %_12, ptr align 8 %1) #16 
+  %is_gt_9 = call zeroext i1 @main_closure_gt_9(ptr align 1 %iter.2, ptr align 8 %current.ptr_2) #16 
   br label %bb1 bb1: 
   ; preds = %start
-  br i1 %_4, label %bb2, label %bb4 bb4: 
+  br i1 %is_gt_9, label %is-gt-9, label %is-not-gt-9
+is-not-gt-9: 
   ; preds = %bb1
-  store i8 0, ptr %_14, align 1 
+  store i8 0, ptr %flag_1, align 1 
   ; call <core::ops::control_flow::ControlFlow<B,C> as core::ops::try_trait::Try>::from_output
-  %2 = call { i32, i32 } @"_ZN95_$LT$core..ops..control_flow..ControlFlow$LT$B$C$C$GT$$u20$as$u20$core..ops..try_trait..Try$GT$11from_output17h741b61b0918faaa2E"() #16 
+  %2 = call { i32, i32 } @"dont_know_returns{0, undefined}"() #16 
   %3 = extractvalue { i32, i32 } %2, 0 
   %4 = extractvalue { i32, i32 } %2, 1 
   store i32 %3, ptr %_0, align 4 
   %5 = getelementptr inbounds i8, ptr %_0, i64 4 
   store i32 %4, ptr %5, align 4 
-  br label %bb5 bb2: 
+  br label %bb5 
+is-gt-9: 
   ; preds = %bb1
-  %_7 = getelementptr inbounds i8, ptr %_1, i64 8 
-  store i8 0, ptr %_14, align 1 
-  store i8 0, ptr %_13, align 1 
-  %_10 = load ptr, ptr %item, align 8, !nonnull !4, !align !11, !noundef !4 
+  %_7 = getelementptr inbounds i8, ptr %iter.2.ptr, i64 8 
+  store i8 0, ptr %flag_1, align 1 
+  store i8 0, ptr %flag_2, align 1 
+  %_10 = load ptr, ptr %current.ptr, align 8, !nonnull !4, !align !11, !noundef !4 
   store ptr %_10, ptr %_8, align 8 
   %6 = load ptr, ptr %_8, align 8, !nonnull !4, !align !11, !noundef !4 
   ; call core::iter::adapters::map::map_try_fold::{{closure}}
-  %7 = call { i32, i32 } @"_ZN4core4iter8adapters3map12map_try_fold28_$u7b$$u7b$closure$u7d$$u7d$17h5b95b4ad578f13cbE"(ptr align 8 %_7, ptr align 4 %6) #16 
+  %7 = call { i32, i32 } @adapters_map_try_fold_closure(ptr align 8 %_7, ptr align 4 %6) #16 
   %8 = extractvalue { i32, i32 } %7, 0 
   %9 = extractvalue { i32, i32 } %7, 1 
   store i32 %8, ptr %_0, align 4 
@@ -1244,11 +1259,11 @@ start:
   ; preds = %bb2
   br label %bb6 bb10: 
   ; preds = %funclet_bb10
-  %16 = load i8, ptr %_13, align 1, !range !7, !noundef !4 
+  %16 = load i8, ptr %flag_2, align 1, !range !7, !noundef !4 
   %17 = trunc i8 %16 to i1 
   br i1 %17, label %bb9, label %bb10_cleanup_trampoline_bb7 bb7: 
   ; preds = %funclet_bb7
-  %18 = load i8, ptr %_14, align 1, !range !7, !noundef !4 
+  %18 = load i8, ptr %flag_1, align 1, !range !7, !noundef !4 
   %19 = trunc i8 %18 to i1 
   br i1 %19, label %bb11, label %bb8 funclet_bb7: 
   ; preds = %bb9, %bb10_cleanup_trampoline_bb7
@@ -3038,53 +3053,61 @@ start:
 
 ; <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
 ; Function Attrs: inlinehint nounwind uwtable
-define internal ptr @"_ZN91_$LT$core..slice..iter..Iter$LT$T$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h337d80dd33fc0789E"(ptr align 8 %self) unnamed_addr #0 { 
+define internal ptr @iter_next(ptr align 8 %iter) unnamed_addr #0 { 
 start: 
   %_28 = alloca ptr, align 8 
   %old = alloca ptr, align 8 
-  %end = alloca ptr, align 8 
-  %_2 = alloca i8, align 1 
-  %_0 = alloca ptr, align 8 
-  br label %bb2 bb2: 
+  %arr_end.ptr = alloca ptr, align 8 
+  %is_end_3 = alloca i8, align 1 
+  %return_ptr = alloca ptr, align 8 
+  br label %bb2 
+bb2: 
   ; preds = %start
-  %self1 = getelementptr inbounds i8, ptr %self, i64 8 
-  %0 = load ptr, ptr %self1, align 8, !nonnull !4, !noundef !4 
-  store ptr %0, ptr %end, align 8 
-  %self2 = load ptr, ptr %self, align 8, !nonnull !4, !noundef !4 
-  %self3 = load ptr, ptr %end, align 8, !nonnull !4, !noundef !4 
-  %1 = icmp eq ptr %self2, %self3 
-  %2 = zext i1 %1 to i8 
-  store i8 %2, ptr %_2, align 1 
-  br label %bb3 bb3: 
+  %iter.1 = getelementptr inbounds i8, ptr %iter, i64 8 
+  %arr_end = load ptr, ptr %iter.1, align 8, !nonnull !4, !noundef !4 
+  store ptr %arr_end, ptr %arr_end.ptr, align 8 
+  %arr_start = load ptr, ptr %iter, align 8, !nonnull !4, !noundef !4 
+  %arr_end_2 = load ptr, ptr %arr_end.ptr, align 8, !nonnull !4, !noundef !4 
+  %is_end = icmp eq ptr %arr_start, %arr_end_2 
+  %is_end_2 = zext i1 %is_end to i8 
+  store i8 %is_end_2, ptr %is_end_3, align 1 
+  br label %bb3 
+bb3: 
   ; preds = %bb2
-  %3 = load i8, ptr %_2, align 1, !range !7, !noundef !4 
-  %4 = trunc i8 %3 to i1 
-  br i1 %4, label %bb4, label %bb5 bb1: 
+  %is_end_4 = load i8, ptr %is_end_3, align 1, !range !7, !noundef !4 
+  %is_end_5 = trunc i8 %is_end_4 to i1 
+  br i1 %is_end_5, label %is-end, label %is-not-end bb1: 
   ; No predecessors!
-  unreachable bb5: 
+  unreachable
+is-not-end: 
   ; preds = %bb3
-  %5 = load ptr, ptr %self, align 8, !nonnull !4, !noundef !4 
-  store ptr %5, ptr %old, align 8 
-  br label %bb8 bb4: 
+  %arr_start_2 = load ptr, ptr %iter, align 8, !nonnull !4, !noundef !4 
+  store ptr %arr_start_2, ptr %old, align 8 
+  br label %bb8
+is-end: 
   ; preds = %bb3
-  store ptr null, ptr %_0, align 8 
-  br label %bb6 bb8: 
+  store ptr null, ptr %return_ptr, align 8 
+  br label %bb6
+bb8: 
   ; preds = %bb5
-  %self4 = getelementptr inbounds i8, ptr %self, i64 8 
-  %self5 = load ptr, ptr %self, align 8, !nonnull !4, !noundef !4 
-  %_30 = getelementptr inbounds i32, ptr %self5, i64 1 
-  store ptr %_30, ptr %_28, align 8 
-  %6 = load ptr, ptr %_28, align 8, !nonnull !4, !noundef !4 
-  store ptr %6, ptr %self, align 8 
-  br label %bb9 bb9: 
+  %iter.i_2 = getelementptr inbounds i8, ptr %iter, i64 8 
+  %arr_start_3 = load ptr, ptr %iter, align 8, !nonnull !4, !noundef !4 
+  %arr_start.next = getelementptr inbounds i32, ptr %arr_start_3, i64 1 
+  store ptr %arr_start.next, ptr %_28, align 8 
+  %arr_start.next_2 = load ptr, ptr %_28, align 8, !nonnull !4, !noundef !4 
+  store ptr %arr_start.next_2, ptr %iter, align 8 
+  br label %bb9 
+bb9: 
   ; preds = %bb8
   %self6 = load ptr, ptr %old, align 8, !nonnull !4, !noundef !4 
-  store ptr %self6, ptr %_0, align 8 
-  br label %bb6 bb7: 
+  store ptr %self6, ptr %return_ptr, align 8 
+  br label %bb6 
+bb7: 
   ; No predecessors!
-  unreachable bb6: 
+  unreachable 
+bb6: 
   ; preds = %bb4, %bb9
-  %7 = load ptr, ptr %_0, align 8, !align !11, !noundef !4 
+  %7 = load ptr, ptr %return_ptr, align 8, !align !11, !noundef !4 
   ret ptr %7 
 }
 
@@ -3138,7 +3161,7 @@ start:
 
 ; <core::ops::control_flow::ControlFlow<B,C> as core::ops::try_trait::Try>::from_output
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { i32, i32 } @"_ZN95_$LT$core..ops..control_flow..ControlFlow$LT$B$C$C$GT$$u20$as$u20$core..ops..try_trait..Try$GT$11from_output17h741b61b0918faaa2E"() unnamed_addr #0 { 
+define internal { i32, i32 } @"dont_know_returns{0, undefined}"() unnamed_addr #0 { 
 start: 
   %_0 = alloca %"core::ops::control_flow::ControlFlow<u32>", align 4 
   store i32 0, ptr %_0, align 4 
@@ -3152,7 +3175,7 @@ start:
 
 ; <core::ops::control_flow::ControlFlow<B,C> as core::ops::try_trait::Try>::branch
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { i32, i32 } @"_ZN95_$LT$core..ops..control_flow..ControlFlow$LT$B$C$C$GT$$u20$as$u20$core..ops..try_trait..Try$GT$6branch17h8bf9ac99677da88cE"(i32 %0, i32 %1) unnamed_addr #0 { 
+define internal { i32, i32 } @control_flow_branch(i32 %0, i32 %1) unnamed_addr #0 { 
 start: 
   %_5 = alloca i32, align 4 
   %_0 = alloca %"core::ops::control_flow::ControlFlow<core::ops::control_flow::ControlFlow<u32, core::convert::Infallible>>", align 4 
@@ -3283,17 +3306,17 @@ start:
 
 ; mt_prototype::main::{{closure}}
 ; Function Attrs: inlinehint nounwind uwtable
-define internal zeroext i1 @"_ZN12mt_prototype4main28_$u7b$$u7b$closure$u7d$$u7d$17h3cd67fad8aa35774E"(ptr align 1 %_1, ptr align 8 %_2) unnamed_addr #0 {
+define internal zeroext i1 @main_closure_gt_9(ptr align 1 %iter.2, ptr align 8 %current.ptr) unnamed_addr #0 {
 start:
-  %i = load ptr, ptr %_2, align 8, !nonnull !4, !align !11, !noundef !4
-  %_4 = load i32, ptr %i, align 4, !noundef !4
+  %current = load ptr, ptr %current.ptr, align 8, !nonnull !4, !align !11, !noundef !4
+  %_4 = load i32, ptr %current, align 4, !noundef !4
   %_0 = icmp ugt i32 %_4, 9
   ret i1 %_0
 }
 
 ; mt_prototype::main::{{closure}}
 ; Function Attrs: inlinehint nounwind uwtable
-define internal i32 @"_ZN12mt_prototype4main28_$u7b$$u7b$closure$u7d$$u7d$17hf2fd91fb7f24ce46E"(ptr align 1 %_1, ptr align 4 %i) unnamed_addr #0 {
+define internal i32 @main_closure_uadd_overflow(ptr align 1 %_1, ptr align 4 %i) unnamed_addr #0 {
 start:
 ; call <&u32 as core::ops::arith::Add<u32>>::add
   %_0 = call i32 @"_ZN60_$LT$$RF$u32$u20$as$u20$core..ops..arith..Add$LT$u32$GT$$GT$3add17h1dd9638fbc40d06fE"(ptr align 4 %i, i32 1, ptr align 8 @alloc_b4cb1009815f1925fe51ac3cd5a2e1ac) #16
@@ -3302,7 +3325,7 @@ start:
 
 ; mt_prototype::main::{{closure}}
 ; Function Attrs: inlinehint nounwind uwtable
-define internal zeroext i1 @"_ZN12mt_prototype4main28_$u7b$$u7b$closure$u7d$$u7d$17h7c3a7e3a6a7b0d20E"(ptr align 1 %_1, ptr align 4 %_2) unnamed_addr #0 {
+define internal zeroext i1 @main_closure_lt_20(ptr align 1 %_1, ptr align 4 %_2) unnamed_addr #0 {
 start:
   %i = load i32, ptr %_2, align 4, !noundef !4
   %_0 = icmp ult i32 %i, 20
@@ -3311,7 +3334,7 @@ start:
 
 ; mt_prototype::main::{{closure}}
 ; Function Attrs: inlinehint nounwind uwtable
-define internal i32 @"_ZN12mt_prototype4main28_$u7b$$u7b$closure$u7d$$u7d$17hde5531869eecdc34E"(ptr align 1 %_1, i32 %i) unnamed_addr #0 {
+define internal i32 @main_closure_iadd(ptr align 1 %_1, i32 %i) unnamed_addr #0 {
 start:
   %_0 = add i32 %i, 1
   ret i32 %_0
@@ -3392,8 +3415,10 @@ declare void @_ZN4core9panicking18panic_bounds_check17hcf51413d63d13069E(i64, i6
 declare void @_ZN3std2io5stdio6_print17he0468e1d0bbe1c44E(ptr align 8) unnamed_addr #1
 
 ;#printing
-declare void @print_ptr(ptr) noinline nounwind optnone uwtable
-declare void @print_i64(i64) noinline nounwind optnone uwtable
+declare void @print_ptr(i64, ptr) noinline nounwind optnone uwtable
+declare void @print_i64(i64, i64) noinline nounwind optnone uwtable
+declare void @print_i32(i64, i32) noinline nounwind optnone uwtable
+
 
 define i32 @main(i32 %0, ptr %1) unnamed_addr #4 {
 top:
