@@ -1,0 +1,30 @@
+{
+	// Place your mt_prototype workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	"print_ptr": {
+		"scope": "llvm-ir",
+		"prefix": "print_ptr",
+		"body": [
+			"call void @print_ptr(i64 ${1:0}, ptr %$2)$0",
+		],
+	},
+	"print_i64": {
+		"scope": "llvm-ir",
+		"prefix": "print_i64",
+		"body": [
+			"call void @print_i64(i64 ${1:0}, i64 %$2)$0",
+		],
+	},
+	"print_i32": {
+		"scope": "llvm-ir",
+		"prefix": "print_i32",
+		"body": [
+			"call void @print_i32(i64 ${1:0}, i32 %$2)$0",
+		],
+	}
+}
