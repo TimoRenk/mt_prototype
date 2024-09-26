@@ -165,6 +165,17 @@
 			"hide": true
 		},
 		{
+			"label": "create cg-dot files",
+			"type": "shell",
+			"command": "opt -passes=dot-callgraph ${workspaceFolder}\\out\\${workspaceFolderBasename}.ll --disable-output --dot-cfg-dir=${workspaceFolder}\\out",
+			"group": "none",
+			"problemMatcher": [],
+			"options": {
+				"cwd": "${workspaceFolder}\\out"
+			},
+			"hide": true
+		},
+		{
 			"label": "clean CFGs",
 			"type": "shell",
 			"command": "md",
@@ -185,6 +196,16 @@
 			"dependsOn": [
 				"clean CFGs",
 				"create cfg-dot files",
+			],
+			"dependsOrder": "sequence"
+		},
+		{
+			"label": "create CG",
+			"type": "shell",
+			"command": "dot -Tpng -O ${workspaceFolder}\\out\\${workspaceFolderBasename}.ll.callgraph.dot",
+			"problemMatcher": [],
+			"dependsOn": [
+				"create cg-dot files",
 			],
 			"dependsOrder": "sequence"
 		},
