@@ -122,7 +122,10 @@
 			"type": "shell",
 			"command": "del ${workspaceFolder}\\target\\release\\deps\\${workspaceFolderBasename}.${workspaceFolderBasename}.*;xcopy ${workspaceFolder}\\target\\release\\deps\\${workspaceFolderBasename}.*.rcgu.o ${workspaceFolder}\\target\\release\\deps\\TEMP_FILE.${workspaceFolderBasename}.rcgu.o* /Y;del ${workspaceFolder}\\target\\release\\deps\\${workspaceFolderBasename}.*.rcgu.*",
 			"problemMatcher": [],
-			"hide": true
+			"hide": true,
+			"presentation": {
+				"clear": true
+			}
 		},
 		{
 			"label": "clang: build analysis",
@@ -197,7 +200,10 @@
 				"clean CFGs",
 				"create cfg-dot files",
 			],
-			"dependsOrder": "sequence"
+			"dependsOrder": "sequence",
+			"presentation": {
+				"clear": true
+			}
 		},
 		{
 			"label": "create CG",
@@ -207,13 +213,25 @@
 			"dependsOn": [
 				"create cg-dot files",
 			],
-			"dependsOrder": "sequence"
+			"dependsOrder": "sequence",
+			"presentation": {
+				"clear": true
+			}
 		},
 		{
 			"label": "clang: run file",
 			"type": "shell",
 			"command": "clang ${file} ${workspaceFolder}\\analysis\\print.ll -o ${fileDirname}\\${fileBasenameNoExtension}.exe;${fileDirname}\\${fileBasenameNoExtension}.exe",
 			"group": "build"
+		},
+		{
+			"label": "opt: run coroutine passes",
+			"type": "shell",
+			"command": "opt -passes='coro-early,coro-split,coro-elide,coro-cleanup' ${file} -S -o ${fileDirname}\\${fileBasenameNoExtension}_coro.ll",
+			"group": "build",
+			"presentation": {
+				"clear": true
+			}
 		}
 	]
 }

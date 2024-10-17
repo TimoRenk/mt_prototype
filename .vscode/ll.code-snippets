@@ -26,5 +26,12 @@
 		"body": [
 			"call void @print_i32(i64 ${1:0}, i32 %$2)$0",
 		],
+	},
+	"declare_print": {
+		"scope": "llvm-ir",
+		"prefix": "declare_print",
+		"body": [
+			"; #printing\ndeclare void @print_ptr(i64, ptr) noinline nounwind optnone uwtable\ndeclare void @print_i64(i64, i64) noinline nounwind optnone uwtable\ndeclare void @print_i32(i64, i32) noinline nounwind optnone uwtable\n$0",
+		]
 	}
 }
