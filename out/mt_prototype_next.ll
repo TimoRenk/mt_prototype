@@ -1,7 +1,7 @@
 ; ModuleID = 'mt_prototype.6e4f1744b59c3cda-cgu.0'
 source_filename = "mt_prototype.6e4f1744b59c3cda-cgu.0"
 target datalayout = "e-m:w-p270:32:32-p271:32:32-p272:64:64-i64:64-i128:128-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-windows-msvc"
+target triple = "x86_64-pc-windows-msvc19.29.30143"
 
 %"core::fmt::Arguments<'_>" = type { { ptr, i64 }, { ptr, i64 }, %"core::option::Option<&[core::fmt::rt::Placeholder]>" }
 %"core::option::Option<&[core::fmt::rt::Placeholder]>" = type { ptr, [1 x i64] }
@@ -17,7 +17,7 @@ target triple = "x86_64-pc-windows-msvc"
 @alloc_513570631223a12912d85da2bec3b15a = private unnamed_addr constant <{}> zeroinitializer, align 8
 @alloc_79b855f811d7c18ca92ab45d5effa5b1 = private unnamed_addr constant <{ [75 x i8] }> <{ [75 x i8] c"/rustc/9b00956e56009bab2aa15d7bff10916599e3d6d6\\library\\core\\src\\fmt\\mod.rs" }>, align 1
 @alloc_aef4c00421cb138ab89219db92fc0e40 = private unnamed_addr constant <{ ptr, [16 x i8] }> <{ ptr @alloc_79b855f811d7c18ca92ab45d5effa5b1, [16 x i8] c"K\00\00\00\00\00\00\00U\01\00\00\0D\00\00\00" }>, align 8
-@alloc_26786ac78d4c1dd0b29552588ac1e7a0 = private unnamed_addr constant <{ [20 x i8] }> <{ [20 x i8] c"\01\00\00\00\02\00\00\00\03\00\00\00\04\00\00\00\05\00\00\00" }>, align 4
+@ARR = private unnamed_addr constant <{ [20 x i8] }> <{ [20 x i8] c"\01\00\00\00\02\00\00\00\03\00\00\00\04\00\00\00\05\00\00\00" }>, align 4
 @alloc_964534042eb07c90b0356c23fc17a891 = private unnamed_addr constant <{ [11 x i8] }> <{ [11 x i8] c"src\\main.rs" }>, align 1
 @alloc_9b3ddacc87322839b407ca159fbb21fb = private unnamed_addr constant <{ ptr, [16 x i8] }> <{ ptr @alloc_964534042eb07c90b0356c23fc17a891, [16 x i8] c"\0B\00\00\00\00\00\00\00\0A\00\00\00\1A\00\00\00" }>, align 8
 @alloc_49a1e817e911805af64bbc7efb390101 = private unnamed_addr constant <{ [1 x i8] }> <{ [1 x i8] c"\0A" }>, align 1
@@ -164,7 +164,7 @@ start:
 
 ; core::slice::<impl [T]>::iter
 ; Function Attrs: inlinehint nounwind uwtable
-define internal { ptr, ptr } @"_ZN4core5slice29_$LT$impl$u20$$u5b$T$u5d$$GT$4iter17hc159da6ade4d3c33E"(ptr align 4 %self.0, i64 %self.1) unnamed_addr #2 {
+define internal { ptr, ptr } @slice_iter(ptr align 4 %self.0, i64 %self.1) unnamed_addr #2 {
 start:
   %end_or_len = alloca ptr, align 8
   %self = alloca %"core::ptr::non_null::NonNull<[u32]>", align 8
@@ -205,70 +205,53 @@ start:
   ret i32 0
 }
 
+;!! iter_next
 ; <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
 ; Function Attrs: inlinehint nounwind uwtable
-define internal align 4 ptr @"_ZN91_$LT$core..slice..iter..Iter$LT$T$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h337d80dd33fc0789E"(ptr align 8 %self) unnamed_addr #2 {
+define internal align 4 ptr @iter_next(ptr align 8 %iter) unnamed_addr #2 {
 start:
-  %_28 = alloca ptr, align 8
+  %arr_start.next.ptr = alloca ptr, align 8
   %old = alloca ptr, align 8
-  %end = alloca ptr, align 8
-  %_2 = alloca i8, align 1
-  %_0 = alloca ptr, align 8
-  br label %bb2
+  %arr_end.ptr = alloca ptr, align 8
+  %is_end_3 = alloca i8, align 1
+  %ret_ptr = alloca ptr, align 8
+  %iter.1 = getelementptr inbounds i8, ptr %iter, i64 8
+  %arr_end = load ptr, ptr %iter.1, align 8, !nonnull !4, !noundef !4
+  store ptr %arr_end, ptr %arr_end.ptr, align 8
+  %arr_start = load ptr, ptr %iter, align 8, !nonnull !4, !noundef !4
+  %arr_end_2 = load ptr, ptr %arr_end.ptr, align 8, !nonnull !4, !noundef !4
+  %is_end = icmp eq ptr %arr_start, %arr_end_2
+  %is_end_2 = zext i1 %is_end to i8
+  store i8 %is_end_2, ptr %is_end_3, align 1
+  %is_end_4 = load i8, ptr %is_end_3, align 1, !range !7, !noundef !4
+  %is_end_5 = trunc i8 %is_end_4 to i1
+  br i1 %is_end_5, label %is-end, label %is-not-end
 
-bb2:                                              ; preds = %start
-  %self1 = getelementptr inbounds i8, ptr %self, i64 8
-  %0 = load ptr, ptr %self1, align 8, !nonnull !4, !noundef !4
-  store ptr %0, ptr %end, align 8
-  %self2 = load ptr, ptr %self, align 8, !nonnull !4, !noundef !4
-  %self3 = load ptr, ptr %end, align 8, !nonnull !4, !noundef !4
-  %1 = icmp eq ptr %self2, %self3
-  %2 = zext i1 %1 to i8
-  store i8 %2, ptr %_2, align 1
-  br label %bb3
+is-end:
+  store ptr null, ptr %ret_ptr, align 8
+  br label %return
 
-bb3:                                              ; preds = %bb2
-  %3 = load i8, ptr %_2, align 1, !range !7, !noundef !4
-  %4 = trunc i8 %3 to i1
-  br i1 %4, label %bb4, label %bb5
+is-not-end:
+  %arr_start_2 = load ptr, ptr %iter, align 8, !nonnull !4, !noundef !4
+  store ptr %arr_start_2, ptr %old, align 8
+  %iter.1_2 = getelementptr inbounds i8, ptr %iter, i64 8
+  %arr_start_3 = load ptr, ptr %iter, align 8, !nonnull !4, !noundef !4
+  %arr_start.next = getelementptr inbounds i32, ptr %arr_start_3, i64 1
+  store ptr %arr_start.next, ptr %arr_start.next.ptr, align 8
+  %arr_start.next_2 = load ptr, ptr %arr_start.next.ptr, align 8, !nonnull !4, !noundef !4
+  store ptr %arr_start.next_2, ptr %iter, align 8
+  %arr_start_4 = load ptr, ptr %old, align 8, !nonnull !4, !noundef !4
+  store ptr %arr_start_4, ptr %ret_ptr, align 8
+  br label %return
 
-bb1:                                              ; No predecessors!
-  unreachable
-
-bb5:                                              ; preds = %bb3
-  %5 = load ptr, ptr %self, align 8, !nonnull !4, !noundef !4
-  store ptr %5, ptr %old, align 8
-  br label %bb8
-
-bb4:                                              ; preds = %bb3
-  store ptr null, ptr %_0, align 8
-  br label %bb6
-
-bb8:                                              ; preds = %bb5
-  %self4 = getelementptr inbounds i8, ptr %self, i64 8
-  %self5 = load ptr, ptr %self, align 8, !nonnull !4, !noundef !4
-  %_30 = getelementptr inbounds i32, ptr %self5, i64 1
-  store ptr %_30, ptr %_28, align 8
-  %6 = load ptr, ptr %_28, align 8, !nonnull !4, !noundef !4
-  store ptr %6, ptr %self, align 8
-  br label %bb9
-
-bb9:                                              ; preds = %bb8
-  %self6 = load ptr, ptr %old, align 8, !nonnull !4, !noundef !4
-  store ptr %self6, ptr %_0, align 8
-  br label %bb6
-
-bb7:                                              ; No predecessors!
-  unreachable
-
-bb6:                                              ; preds = %bb4, %bb9
-  %7 = load ptr, ptr %_0, align 8, !align !5, !noundef !4
-  ret ptr %7
+return:
+  %ret_val_1 = load ptr, ptr %ret_ptr, align 8, !align !5, !noundef !4
+  ret ptr %ret_val_1
 }
 
 ; mt_prototype::main
 ; Function Attrs: nounwind uwtable
-define internal void @_ZN12mt_prototype4main17hac7c6fb848129022E() unnamed_addr #1 {
+define internal void @mt_prototype_main() unnamed_addr #1 {
 start:
   %self.i = alloca ptr, align 8
   %_0.i = alloca %"core::fmt::rt::Argument<'_>", align 8
@@ -277,35 +260,34 @@ start:
   %a5 = alloca ptr, align 8
   %iter = alloca %"core::slice::iter::Iter<'_, u32>", align 8
 ; call core::slice::<impl [T]>::iter
-  %0 = call { ptr, ptr } @"_ZN4core5slice29_$LT$impl$u20$$u5b$T$u5d$$GT$4iter17hc159da6ade4d3c33E"(ptr align 4 @alloc_26786ac78d4c1dd0b29552588ac1e7a0, i64 5) #5
+  %0 = call { ptr, ptr } @slice_iter(ptr align 4 @ARR, i64 5) #5
   %1 = extractvalue { ptr, ptr } %0, 0
   %2 = extractvalue { ptr, ptr } %0, 1
   store ptr %1, ptr %iter, align 8
   %3 = getelementptr inbounds i8, ptr %iter, i64 8
   store ptr %2, ptr %3, align 8
 ; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %a1 = call align 4 ptr @"_ZN91_$LT$core..slice..iter..Iter$LT$T$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h337d80dd33fc0789E"(ptr align 8 %iter) #5
+  %a1 = call align 4 ptr @iter_next(ptr align 8 %iter) #5
 ; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %a2 = call align 4 ptr @"_ZN91_$LT$core..slice..iter..Iter$LT$T$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h337d80dd33fc0789E"(ptr align 8 %iter) #5
+  %a2 = call align 4 ptr @iter_next(ptr align 8 %iter) #5
 ; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %a3 = call align 4 ptr @"_ZN91_$LT$core..slice..iter..Iter$LT$T$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h337d80dd33fc0789E"(ptr align 8 %iter) #5
+  %a3 = call align 4 ptr @iter_next(ptr align 8 %iter) #5
 ; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %a4 = call align 4 ptr @"_ZN91_$LT$core..slice..iter..Iter$LT$T$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h337d80dd33fc0789E"(ptr align 8 %iter) #5
+  %a4 = call align 4 ptr @iter_next(ptr align 8 %iter) #5
 ; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %_12 = call align 4 ptr @"_ZN91_$LT$core..slice..iter..Iter$LT$T$GT$$u20$as$u20$core..iter..traits..iterator..Iterator$GT$4next17h337d80dd33fc0789E"(ptr align 8 %iter) #5
+  %_12 = call align 4 ptr @iter_next(ptr align 8 %iter) #5
   store ptr %_12, ptr %self.i, align 8
   %4 = load ptr, ptr %self.i, align 8, !noundef !4
   %5 = ptrtoint ptr %4 to i64
   %6 = icmp eq i64 %5, 0
-  %_2.i = select i1 %6, i64 0, i64 1
-  br i1 %6, label %bb2.i, label %"_ZN4core6option15Option$LT$T$GT$6unwrap17h0e224d3d75ce9224E.exit"
+  br i1 %6, label %no_value, label %has_value
 
-bb2.i:                                            ; preds = %start
+no_value:                                            ; preds = %start
 ; call core::option::unwrap_failed
   call void @_ZN4core6option13unwrap_failed17hcdf26f8558bfd8c1E(ptr align 8 @alloc_9b3ddacc87322839b407ca159fbb21fb) #6
   unreachable
 
-"_ZN4core6option15Option$LT$T$GT$6unwrap17h0e224d3d75ce9224E.exit": ; preds = %start
+has_value: ; preds = %start
   %val.i = load ptr, ptr %self.i, align 8, !nonnull !4, !align !5, !noundef !4
   store ptr %val.i, ptr %a5, align 8
   store ptr %a5, ptr %_0.i, align 8
@@ -353,7 +335,7 @@ define i32 @main(i32 %0, ptr %1) unnamed_addr #4 {
 top:
   %2 = sext i32 %0 to i64
 ; call std::rt::lang_start
-  %3 = call i64 @_ZN3std2rt10lang_start17h694f15f47d206a02E(ptr @_ZN12mt_prototype4main17hac7c6fb848129022E, i64 %2, ptr %1, i8 0)
+  %3 = call i64 @_ZN3std2rt10lang_start17h694f15f47d206a02E(ptr @mt_prototype_main, i64 %2, ptr %1, i8 0)
   %4 = trunc i64 %3 to i32
   ret i32 %4
 }
