@@ -205,28 +205,38 @@ start:
   ret i32 0
 }
 
-;!! iter_next
-; <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-; Function Attrs: inlinehint nounwind uwtable
-define internal align 4 ptr @iter_next(ptr align 8 %iter) unnamed_addr #2 {
-start:
-  %old = alloca ptr, align 8
+;!! iter_next_coro
+define internal align 4 {ptr, ptr} @iter_next_coro(ptr align 8 %coro_buffer, ptr align 8 %iter) unnamed_addr #2 {
+entry:
+  %coro_id = call token @llvm.coro.id.retcon(i32 16, i32 8, ptr %coro_buffer, ptr @iter_next_coro_prot, ptr @allocate, ptr @deallocate)
+  %coro_hdl = call ptr @llvm.coro.begin(token %coro_id, ptr null)
+  %arr_start_0 = load ptr, ptr %iter, align 8, !nonnull !4, !noundef !4
   %iter.1 = getelementptr inbounds i8, ptr %iter, i64 8
   %arr_end = load ptr, ptr %iter.1, align 8, !nonnull !4, !noundef !4
-  %arr_start = load ptr, ptr %iter, align 8, !nonnull !4, !noundef !4
+  br label %loop
+
+loop:
+  %arr_start = phi ptr [%arr_start_0, %entry], [%arr_start.next, %is-not-end]
   %is_end = icmp eq ptr %arr_start, %arr_end
   br i1 %is_end, label %is-end, label %is-not-end
 
-is-end:
-  ret ptr null
-
 is-not-end:
-  store ptr %arr_start, ptr %old, align 8
   %arr_start.next = getelementptr inbounds i32, ptr %arr_start, i64 1
-  store ptr %arr_start.next, ptr %iter, align 8
-  %arr_start_2 = load ptr, ptr %old, align 8, !nonnull !4, !noundef !4
-  ret ptr %arr_start_2
+  %unwind_1 = call i1 (...) @llvm.coro.suspend.retcon.i1(ptr %arr_start)
+  br i1 %unwind_1, label %cleanup, label %loop
+
+is-end:
+  %unwind_0 = call i1 (...) @llvm.coro.suspend.retcon.i1(ptr null)
+  br i1 %unwind_0, label %cleanup, label %is-end
+
+cleanup:
+  call i1 @llvm.coro.end(ptr %coro_hdl, i1 false)
+  unreachable
 }
+
+declare noalias ptr @allocate(i32 %size)
+declare void @deallocate(ptr %ptr)
+declare {ptr, ptr} @iter_next_coro_prot(ptr, i1)
 
 ;!! main
 ; mt_prototype::main
@@ -239,6 +249,9 @@ start:
   %_15 = alloca %"core::fmt::Arguments<'_>", align 8
   %a5 = alloca ptr, align 8
   %iter = alloca %"core::slice::iter::Iter<'_, u32>", align 8
+  ; size: {arr_start ptr, arr_end ptr}
+  %coro_buffer = alloca [16 x i8], align 8
+
 ; call core::slice::<impl [T]>::iter
   %0 = call { ptr, ptr } @slice_iter(ptr align 4 @ARR, i64 5) #5
   %1 = extractvalue { ptr, ptr } %0, 0
@@ -246,19 +259,25 @@ start:
   store ptr %1, ptr %iter, align 8
   %3 = getelementptr inbounds i8, ptr %iter, i64 8
   store ptr %2, ptr %3, align 8
-; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %a1 = call align 4 ptr @iter_next(ptr align 8 %iter) #5
-; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %a2 = call align 4 ptr @iter_next(ptr align 8 %iter) #5
-; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %a3 = call align 4 ptr @iter_next(ptr align 8 %iter) #5
-; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %a4 = call align 4 ptr @iter_next(ptr align 8 %iter) #5
-; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %_12 = call align 4 ptr @iter_next(ptr align 8 %iter) #5
-  store ptr %_12, ptr %self.i, align 8
-  %4 = load ptr, ptr %self.i, align 8, !noundef !4
-  %5 = ptrtoint ptr %4 to i64
+
+  %coro_0 = call ptr @llvm.coro.prepare.retcon(ptr @iter_next_coro)
+  %coro_ret_0 = call {ptr, ptr} %coro_0(ptr %coro_buffer, ptr %iter)
+  %coro_1 = extractvalue {ptr, ptr} %coro_ret_0, 0
+  %coro_ret_1 = call {ptr, ptr} %coro_1(ptr %coro_buffer, i1 false)
+  %coro_2 = extractvalue {ptr, ptr} %coro_ret_1, 0
+  %coro_ret_2 = call {ptr, ptr} %coro_2(ptr %coro_buffer, i1 false)
+  %coro_3 = extractvalue {ptr, ptr} %coro_ret_2, 0
+  %coro_ret_3 = call {ptr, ptr} %coro_3(ptr %coro_buffer, i1 false)
+  %coro_4 = extractvalue {ptr, ptr} %coro_ret_3, 0
+  %coro_ret_4 = call {ptr, ptr} %coro_4(ptr %coro_buffer, i1 false)
+  %arr_start = extractvalue {ptr, ptr} %coro_ret_4, 1
+
+  %coro_5 = extractvalue {ptr, ptr} %coro_ret_4, 0
+  call {ptr, ptr} %coro_5(ptr %coro_buffer, i1 true)
+
+  store ptr %arr_start, ptr %self.i, align 8
+  %_4 = load ptr, ptr %self.i, align 8, !noundef !4
+  %5 = ptrtoint ptr %_4 to i64
   %6 = icmp eq i64 %5, 0
   br i1 %6, label %no_value, label %has_value
 
