@@ -205,27 +205,41 @@ start:
   ret i32 0
 }
 
-;!! iter_next
-; <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-; Function Attrs: inlinehint nounwind uwtable
-define internal align 4 ptr @iter_next(ptr align 8 %iter) unnamed_addr #2 {
-start:
-  %old = alloca ptr, align 8
+;!! iter_next_coro
+define internal align 4 ptr @iter_next_coro(ptr %coro_buffer, ptr align 8 %iter) presplitcoroutine #2 {
+entry:
+  %coro_promise = alloca ptr, align 8 
+  %coro_id = call token @llvm.coro.id(i32 0, ptr %coro_promise, ptr null, ptr null)
+  %coro_hdl = call noalias ptr @llvm.coro.begin(token %coro_id, ptr %coro_buffer)
+  %arr_start_0 = load ptr, ptr %iter, align 8, !nonnull !4, !noundef !4
   %iter.1 = getelementptr inbounds i8, ptr %iter, i64 8
   %arr_end = load ptr, ptr %iter.1, align 8, !nonnull !4, !noundef !4
-  %arr_start = load ptr, ptr %iter, align 8, !nonnull !4, !noundef !4
+  br label %loop
+
+loop:
+  %arr_start = phi ptr [%arr_start_0, %entry], [%arr_start.next, %is-not-end]
   %is_end = icmp eq ptr %arr_start, %arr_end
   br i1 %is_end, label %is-end, label %is-not-end
 
-is-end:
-  ret ptr null
-
 is-not-end:
-  store ptr %arr_start, ptr %old, align 8
+  store ptr %arr_start, ptr %coro_promise
   %arr_start.next = getelementptr inbounds i32, ptr %arr_start, i64 1
-  store ptr %arr_start.next, ptr %iter, align 8
-  %arr_start_2 = load ptr, ptr %old, align 8, !nonnull !4, !noundef !4
-  ret ptr %arr_start_2
+  %sus_0 = call i8 @llvm.coro.suspend(token none, i1 false)
+  switch i8 %sus_0, label %suspend [i8 0, label %loop
+                                i8 1, label %suspend]
+
+is-end:
+  store ptr null, ptr %coro_promise
+  br label %end-loop
+
+end-loop:
+  %sus_1 = call i8 @llvm.coro.suspend(token none, i1 false)
+  switch i8 %sus_1, label %suspend [i8 0, label %end-loop
+                                 i8 1, label %suspend]
+
+suspend:
+  call i1 @llvm.coro.end(ptr %coro_hdl, i1 false, token none)
+  ret ptr %coro_hdl
 }
 
 ;!! main
@@ -239,24 +253,34 @@ start:
   %_15 = alloca %"core::fmt::Arguments<'_>", align 8
   %a5 = alloca ptr, align 8
   %iter = alloca %"core::slice::iter::Iter<'_, u32>", align 8
-; call core::slice::<impl [T]>::iter
+  ; size: {resume ptr, destory ptr, promise ptr, arr_end.spill ptr, arr_start.spill ptr, resume_idx (grows with number of resume functions) i1}
+  ; would be possible to optimize/combine promise and arr_start
+  %coro_buffer = alloca [41 x i8], align 8
+
+  ; call core::slice::<impl [T]>::iter
   %0 = call { ptr, ptr } @slice_iter(ptr align 4 @ARR, i64 5) #5
   %1 = extractvalue { ptr, ptr } %0, 0
   %2 = extractvalue { ptr, ptr } %0, 1
   store ptr %1, ptr %iter, align 8
   %3 = getelementptr inbounds i8, ptr %iter, i64 8
   store ptr %2, ptr %3, align 8
-; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %a1 = call align 4 ptr @iter_next(ptr align 8 %iter) #5
-; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %a2 = call align 4 ptr @iter_next(ptr align 8 %iter) #5
-; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %a3 = call align 4 ptr @iter_next(ptr align 8 %iter) #5
-; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %a4 = call align 4 ptr @iter_next(ptr align 8 %iter) #5
-; call <core::slice::iter::Iter<T> as core::iter::traits::iterator::Iterator>::next
-  %_12 = call align 4 ptr @iter_next(ptr align 8 %iter) #5
-  store ptr %_12, ptr %self.i, align 8
+  ;* Coroutine start and call 1.
+  %coro_handle = call ptr @iter_next_coro(ptr %coro_buffer, ptr %iter)
+  ; Call 2.
+  call void @llvm.coro.resume(ptr %coro_handle)
+  ; Call 3.
+  call void @llvm.coro.resume(ptr %coro_handle)
+  ; Call 4.
+  call void @llvm.coro.resume(ptr %coro_handle)
+  ; Call 5.
+  call void @llvm.coro.resume(ptr %coro_handle)
+  ;* Extracting the coroutine value.
+  %arr_start.ptr = call ptr @llvm.coro.promise(ptr %coro_handle, i32 8, i1 false)
+  %arr_start = load ptr, ptr %arr_start.ptr
+  ;* Destroying the coroutine.
+  call void @llvm.coro.destroy(ptr %coro_handle)
+
+  store ptr %arr_start, ptr %self.i, align 8
   %4 = load ptr, ptr %self.i, align 8, !noundef !4
   %5 = ptrtoint ptr %4 to i64
   %6 = icmp eq i64 %5, 0
