@@ -260,10 +260,8 @@ start:
   %3 = getelementptr inbounds i8, ptr %iter, i64 8
   store ptr %2, ptr %3, align 8
 
-  ;* Coroutine start.
-  %coro_1 = call ptr @llvm.coro.prepare.retcon(ptr @iter_next_coro)
-  ; Call 1.
-  %coro_1_ret = call {ptr, ptr} %coro_1(ptr %coro_buffer, ptr %iter)
+  ;* Coroutine start and call 1.
+  %coro_1_ret = call { ptr, ptr } @iter_next_coro(ptr %coro_buffer, ptr %iter)
   %coro_2 = extractvalue {ptr, ptr} %coro_1_ret, 0
   ; Call 2.
   %coro_2_ret = call {ptr, ptr} %coro_2(ptr %coro_buffer, i1 false)

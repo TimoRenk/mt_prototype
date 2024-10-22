@@ -90,7 +90,7 @@ bb3:                                              ; preds = %bb2, %start
   store ptr @alloc_513570631223a12912d85da2bec3b15a, ptr %5, align 8
   %6 = getelementptr inbounds i8, ptr %5, i64 8
   store i64 0, ptr %6, align 8
-  call void @_ZN4core9panicking9panic_fmt17h0719af0db753b06eE(ptr align 8 %_9, ptr align 8 @alloc_aef4c00421cb138ab89219db92fc0e40) #7
+  call void @_ZN4core9panicking9panic_fmt17h0719af0db753b06eE(ptr align 8 %_9, ptr align 8 @alloc_aef4c00421cb138ab89219db92fc0e40) #6
   unreachable
 
 bb4:                                              ; preds = %bb1
@@ -261,18 +261,18 @@ start:
   store ptr %1, ptr %iter, align 8
   %3 = getelementptr inbounds i8, ptr %iter, i64 8
   store ptr %2, ptr %3, align 8
-  %coro_ret_0 = call { ptr, ptr } @iter_next_coro(ptr %coro_buffer, ptr %iter)
-  %coro_1 = extractvalue { ptr, ptr } %coro_ret_0, 0
-  %coro_ret_1 = call { ptr, ptr } %coro_1(ptr %coro_buffer, i1 false)
-  %coro_2 = extractvalue { ptr, ptr } %coro_ret_1, 0
-  %coro_ret_2 = call { ptr, ptr } %coro_2(ptr %coro_buffer, i1 false)
-  %coro_3 = extractvalue { ptr, ptr } %coro_ret_2, 0
-  %coro_ret_3 = call { ptr, ptr } %coro_3(ptr %coro_buffer, i1 false)
-  %coro_4 = extractvalue { ptr, ptr } %coro_ret_3, 0
-  %coro_ret_4 = call { ptr, ptr } %coro_4(ptr %coro_buffer, i1 false)
-  %arr_start = extractvalue { ptr, ptr } %coro_ret_4, 1
-  %coro_5 = extractvalue { ptr, ptr } %coro_ret_4, 0
-  %4 = call { ptr, ptr } %coro_5(ptr %coro_buffer, i1 true)
+  %coro_1_ret = call { ptr, ptr } @iter_next_coro(ptr %coro_buffer, ptr %iter)
+  %coro_2 = extractvalue { ptr, ptr } %coro_1_ret, 0
+  %coro_2_ret = call { ptr, ptr } %coro_2(ptr %coro_buffer, i1 false)
+  %coro_3 = extractvalue { ptr, ptr } %coro_2_ret, 0
+  %coro_3_ret = call { ptr, ptr } %coro_3(ptr %coro_buffer, i1 false)
+  %coro_4 = extractvalue { ptr, ptr } %coro_3_ret, 0
+  %coro_4_ret = call { ptr, ptr } %coro_4(ptr %coro_buffer, i1 false)
+  %coro_5 = extractvalue { ptr, ptr } %coro_4_ret, 0
+  %coro_5_ret = call { ptr, ptr } %coro_5(ptr %coro_buffer, i1 false)
+  %arr_start = extractvalue { ptr, ptr } %coro_1_ret, 1
+  %coro_6_destroy = extractvalue { ptr, ptr } %coro_5_ret, 0
+  %4 = call { ptr, ptr } %coro_6_destroy(ptr %coro_buffer, i1 true)
   store ptr %arr_start, ptr %self.i, align 8
   %_4 = load ptr, ptr %self.i, align 8, !noundef !4
   %5 = ptrtoint ptr %_4 to i64
@@ -280,7 +280,7 @@ start:
   br i1 %6, label %no_value, label %has_value
 
 no_value:                                         ; preds = %start
-  call void @_ZN4core6option13unwrap_failed17hcdf26f8558bfd8c1E(ptr align 8 @alloc_9b3ddacc87322839b407ca159fbb21fb) #7
+  call void @_ZN4core6option13unwrap_failed17hcdf26f8558bfd8c1E(ptr align 8 @alloc_9b3ddacc87322839b407ca159fbb21fb) #6
   unreachable
 
 has_value:                                        ; preds = %start
@@ -334,9 +334,6 @@ declare ptr @llvm.coro.begin(token, ptr writeonly) #5
 ; Function Attrs: nounwind
 declare token @llvm.coro.id.retcon(i32, i32, ptr, ptr, ptr, ptr) #5
 
-; Function Attrs: nounwind memory(none)
-declare ptr @llvm.coro.prepare.retcon(ptr) #6
-
 ; Function Attrs: nounwind
 declare i1 @llvm.coro.suspend.retcon.i1(...) #5
 
@@ -349,8 +346,7 @@ attributes #2 = { inlinehint nounwind uwtable "target-cpu"="x86-64" "target-feat
 attributes #3 = { cold noinline noreturn nounwind uwtable "target-cpu"="x86-64" "target-features"="+cx16,+sse3,+sahf" }
 attributes #4 = { "target-cpu"="x86-64" }
 attributes #5 = { nounwind }
-attributes #6 = { nounwind memory(none) }
-attributes #7 = { noreturn nounwind }
+attributes #6 = { noreturn nounwind }
 
 !llvm.module.flags = !{!0, !1}
 !llvm.ident = !{!2}
